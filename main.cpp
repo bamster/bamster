@@ -9,7 +9,7 @@ const unsigned int elapsedUSecs = 40;
 int hamsterPos=0;
 
 void handelKeypress(unsigned char key, int x, int y) {
-    switch (key):
+    switch (key)
         case 27: //Escape
             exit(0);
     }
