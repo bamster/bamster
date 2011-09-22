@@ -1,5 +1,5 @@
-CC = d++
-CFLAGS = -Wall
+CC = g++
+CFLAGS = -Wall -g
 PROG = bamster
 
 SRCS = main.cpp imageloader.cpp

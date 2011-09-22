@@ -40,7 +40,28 @@ glLoadIdentity ( );
 gluOrtho2D ( 0.0, (GLdouble)ww, 0.0, (GLdouble)wh ); //Display area
 }
 
-static void timerCallback (int value) 
+
+
+void handleKeypress (unsigned char key, int x, int y) 
+
+{
+	switch (key) {
+		case 27:
+//			cleanup();
+			exit(0);
+	}
+}
+
+
+
+struct keyLogger {
+	bool leftKey;
+	bool rightKey;
+	bool upKey;
+
+} pressedKeys ;
+
+void timerCallback (int value) 
 { 
 	glClear ( GL_COLOR_BUFFER_BIT ); //clear pixel buffer
 	glBegin(GL_POINTS);
@@ -50,7 +71,12 @@ static void timerCallback (int value)
 	//interface.plot();
 	//map.plot();
 	//player.plot();
-	counter++;
+	//
+	if (pressedKeys.leftKey == true)
+		counter--;
+	if (pressedKeys.rightKey == true)
+		counter++;
+
 	glEnd();
 	glFlush();
     /* Do timer processing */
@@ -58,6 +84,42 @@ static void timerCallback (int value)
     /* call back again after elapsedUSecs have passed */
     glutTimerFunc (elapsedUSecs, timerCallback, value); 
 }
+
+
+void handleSpecialKeyReleased(int key, int x, int y) {
+	switch (key) {
+		case GLUT_KEY_LEFT:
+			pressedKeys.leftKey = false;
+			break;
+		case GLUT_KEY_RIGHT:
+			pressedKeys.rightKey = false;
+			break;
+		case GLUT_KEY_UP:
+			pressedKeys.upKey = false;
+	}
+}
+
+
+
+void handleSpecialKeypress(int key, int x, int y) {
+	switch (key) {
+		case GLUT_KEY_LEFT:
+			pressedKeys.leftKey = true;
+			break;
+		case GLUT_KEY_RIGHT:
+			pressedKeys.rightKey = true;
+			break;
+		case GLUT_KEY_UP:
+			pressedKeys.upKey = true;
+			break;
+	}
+}
+
+
+
+
+
+
 
 int main(int argc, char **argv) {
 glutInit( &argc, argv );
@@ -72,7 +134,16 @@ glutCreateWindow
 MyInit ( );
 glutDisplayFunc ( Displaydot );
 glutTimerFunc ( 40,timerCallback,1 ) ;
+	glutKeyboardFunc(handleKeypress);
+	glutSpecialFunc(handleSpecialKeypress);
+	glutSpecialUpFunc(handleSpecialKeyReleased);
 glutMainLoop ( );
+
+
+
+
+
+
 return 0;
 }
 
