@@ -1,8 +1,8 @@
 CC = g++
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 PROG = bamster
 
-SRCS = main.cpp imageloader.cpp
+SRCS = main.cpp imageloader.cpp 
 
 ifeq ($(shell uname),Darwin)
 	LIBS = -framework OpenGL -framework GLUT
@@ -12,7 +12,7 @@ endif
 
 all: $(PROG)
 
-$(PROG):	$(SRCS)
+$(PROG):	$(SRCS) bamster.h
 	$(CC) $(CFLAGS) -o $(PROG) $(SRCS) $(LIBS)
 
 clean:
