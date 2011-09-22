@@ -1,8 +1,18 @@
+// vim: set ts=4 sw=4 expandtab sts=4:
 #include <iostream>
 #include <X11/Xlib.h>
 #include <GL/glut.h>
 
+#include "imageloader.h"
+
 const unsigned int elapsedUSecs = 40;
+int hamsterPos=0;
+
+void handelKeypress(unsigned char key, int x, int y) {
+    switch (key):
+        case 27: //Escape
+            exit(0);
+    }
 
 using std::cout;
 GLsizei wh = 250 ;
@@ -20,8 +30,7 @@ void Displaydot ( void ) {
 glClear ( GL_COLOR_BUFFER_BIT ); //clear pixel buffer
 glBegin(GL_POINTS);
 // render with points
-glVertex2i(counter%100,210); //display a point
-counter++;
+glVertex2i(hamsterPos,210); //display a point
 glEnd();
 glFlush();
 }
