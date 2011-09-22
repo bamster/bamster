@@ -1,4 +1,4 @@
-CC = g++
+CC = d++
 CFLAGS = -Wall
 PROG = bamster
 
