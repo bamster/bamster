@@ -47,9 +47,9 @@ static void timerCallback (int value)
 	// render with points
 	glColor3f(0.0f, 1.0f,0.0f);
 	glVertex2i(counter%100,210); //display a point
-	interface.plot();
-	map.plot();
-	player.plot();
+	//interface.plot();
+	//map.plot();
+	//player.plot();
 	counter++;
 	glEnd();
 	glFlush();

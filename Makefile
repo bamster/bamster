@@ -1,13 +1,19 @@
-show: bamster
-	./bamster
+CC = g++
+CFLAGS = -Wall
+PROG = bamster
 
+SRCS = main.cpp imageloader.cpp
 
-bamster: bamster.cpp
-	gcc -g -o bamster bamster.cpp -lGL -lglut -lGLU
-	
-example: example.cpp
-	gcc -g -o example example.cpp -lGL -lglut -lGLU
+ifeq ($(shell uname),Darwin)
+	LIBS = -framework OpenGL -framework GLUT
+else
+	LIBS = -lglut -lGLU
+endif
+
+all: $(PROG)
+
+$(PROG):	$(SRCS)
+	$(CC) $(CFLAGS) -o $(PROG) $(SRCS) $(LIBS)
+
 clean:
-	rm bamster
-
-.PHONY: clean
+	rm -f $(PROG)
