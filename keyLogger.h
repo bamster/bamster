@@ -2,11 +2,11 @@
 #define keyLogger_h keyLogger_h
 
 
-struct keyLogger {
+extern struct keyLogger {
     bool leftKey;
     bool rightKey;
     bool upKey;
-
+	 bool downKey;
 } pressedKeys ;
 
 

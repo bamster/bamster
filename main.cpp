@@ -5,9 +5,9 @@
 
 #include "imageloader.h"
 
-#include "keyLogger.h"
 
-#include "bamster.h"
+#include "keyLogger.h"
+#include "game.h"
 
 const unsigned int elapsedUSecs = 40;
 
@@ -110,6 +110,10 @@ void handleSpecialKeyReleased(int key, int x, int y) {
             break;
         case GLUT_KEY_UP:
             pressedKeys.upKey = false;
+            break;
+        case GLUT_KEY_DOWN:
+            pressedKeys.downKey = false;
+            break;
     }
 }
 
@@ -126,7 +130,10 @@ void handleSpecialKeypress(int key, int x, int y) {
         case GLUT_KEY_UP:
             pressedKeys.upKey = true;
             break;
-    }
+        case GLUT_KEY_DOWN:
+            pressedKeys.downKey = true;
+            break;
+    }       
 }
 
 
@@ -138,7 +145,7 @@ void handleSpecialKeypress(int key, int x, int y) {
 int main(int argc, char **argv) {
 
     theBamsterGame = new game();
-
+    activGame = theBamsterGame;
 
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
