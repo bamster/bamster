@@ -1,7 +1,12 @@
 // vim: set ts=4 sw=4 expandtab sts=4:
 #include <iostream>
 #include <X11/Xlib.h>
+#ifdef __APPLE__
+#include <OpenGL/OpenGL.h>
+#include <GLUT/glut.h>
+#else
 #include <GL/glut.h>
+#endif
 
 #include "imageloader.h"
 
@@ -17,6 +22,11 @@ const unsigned int elapsedUSecs = 40;
 
 int hamsterPos=0;
 
+void handelKeypress(unsigned char key, int x, int y) {
+    switch (key)
+        case 27: //Escape
+            exit(0);
+    }
 
 using std::cout;
 GLsizei wh = 250 ;
