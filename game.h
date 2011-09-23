@@ -1,14 +1,7 @@
 #include "bamster.h"
 
+#include <list>
 
-
-
-class bullet : player
-{
-	
-
-
-};
 
 
 
@@ -17,11 +10,17 @@ class game
 
     private:
         player * thePlayer;
+		  list<player *> otherObjects;
 		  
     public:
         game () {
             thePlayer = new bamster();
         }
+	
+		  void spawnObject(player *p)
+		  {
+			  otherObjects.push_back (p);
+		  }
 
         void plot()
         {
@@ -42,14 +41,23 @@ class game
 
 
             thePlayer -> plot();
+				
+				list<player *>::iterator it;
+				for (it = otherObjects.begin(); it != otherObjects.end(); it ++)
+					(*it)->plot();
+
         }
 
         void timerCallback()
         {
+				list<player *>::iterator it;
             thePlayer-> timerCallback(0.5);
+				for (it = otherObjects.begin(); it != otherObjects.end(); it ++)
+					(*it)->timerCallback(0.5);
 
         }
 
 };
+
 
 

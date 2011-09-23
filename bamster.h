@@ -7,13 +7,9 @@
 #include <iostream>
 
 #include <GL/glut.h>
-using namespace std;
+#include "objects.h"
 
-class player {
-    public:
-        virtual void plot() = 0;
-        virtual void timerCallback(double dt) = 0;
-};
+using namespace std;
 
 
 
@@ -26,12 +22,14 @@ class bamster : public player {
         float xpos, ypos;
         // Velocity of the bamster
         float xvel, yvel;
+
+        bool facingLeft;
     public:
         bool isJumping;
         unsigned int framesJumping;
 
 
-        bamster () : jumpPower (12.0), xpos (10), ypos (10), xvel (1), yvel (1), framesJumping ( 0) 
+        bamster () : jumpPower (12.0), xpos (10), ypos (10), xvel (1), yvel (1), framesJumping ( 0), facingLeft (true) 
         {
         }
 

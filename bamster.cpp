@@ -4,10 +4,25 @@
 void bamster::timerCallback(double dt)
         {
 
-            if (pressedKeys.leftKey == true)
+            if (pressedKeys.leftKey == true) {
                 xpos-= xvel * dt;
-            if (pressedKeys.rightKey == true)
-                xpos+= xvel * dt;
+					 facingLeft = true;
+				}
+            if (pressedKeys.rightKey == true) {
+               xpos+= xvel * dt;
+					facingLeft = false;
+				}
+
+				if (pressedKeys.downKey == true) {
+					if (facingLeft)
+						spawnObject(new bullet (-10.0,xpos, ypos));		
+					else
+						spawnObject(new bullet (10.0,xpos, ypos));		
+
+
+				}
+
+
 
             if ((pressedKeys.upKey == true) && !isJumping)    // start jumping
                 isJumping = true;
@@ -42,7 +57,6 @@ void bamster::timerCallback(double dt)
         void bamster::plot()
         {
 
-            glClear ( GL_COLOR_BUFFER_BIT ); //clear pixel buffer
             // render with points
             glBegin(GL_LINES);
             glColor3f(0.0f, 1.0f,0.0f);

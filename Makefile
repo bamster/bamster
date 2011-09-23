@@ -2,7 +2,7 @@ CC = g++
 CFLAGS = -Wall -g
 PROG = bamster
 
-SRCS = main.cpp imageloader.cpp bamster.cpp keyLogger.cpp
+SRCS = main.cpp imageloader.cpp bamster.cpp keyLogger.cpp game.cpp
 OBJS =  $(SRCS:.cpp=.o)
 
 
