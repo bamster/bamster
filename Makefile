@@ -2,7 +2,11 @@ CC = g++
 CFLAGS = -Wall -g
 PROG = bamster
 
-SRCS = main.cpp imageloader.cpp 
+SRCS = main.cpp imageloader.cpp bamster.cpp keyLogger.cpp
+OBJS =  $(SRCS:.cpp=.o)
+
+
+
 
 ifeq ($(shell uname),Darwin)
 	LIBS = -framework OpenGL -framework GLUT
@@ -10,10 +14,21 @@ else
 	LIBS = -lglut -lGLU
 endif
 
+$(PROG):	dependencies $(OBJS) 
+	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+
+dependencies: $(SRCS)
+	gcc -MM $(SRCS) > dependencies
+
+
+-include dependencie
+
 all: $(PROG)
 
-$(PROG):	$(SRCS) bamster.h
-	$(CC) $(CFLAGS) -o $(PROG) $(SRCS) $(LIBS)
+%.o : %.cpp
+	gcc $*.cpp -c
+
+
 
 clean:
-	rm -f $(PROG)
+	rm -f dependencies *.o $(PROG)

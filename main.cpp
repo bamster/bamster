@@ -5,9 +5,9 @@
 
 #include "imageloader.h"
 
-#include "keyLogger.h"
 
-#include "bamster.h"
+#include "keyLogger.h"
+#include "game.h"
 
 const unsigned int elapsedUSecs = 40;
 
