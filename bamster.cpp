@@ -1,8 +1,19 @@
 #include "bamster.h"
 
 
+void bamster::updateBoundingBox()
+
+{
+	b.xmin = xpos - 4.0;
+	b.xmax = xpos + 4.0;
+	b.ymin = ypos - 4.0;
+	b.ymax = ypos + 4.0;
+
+}
+
 void bamster::timerCallback(double dt)
         {
+			
 
             if (pressedKeys.leftKey == true) {
                 xpos-= xvel * dt;
@@ -13,11 +24,18 @@ void bamster::timerCallback(double dt)
 					facingLeft = false;
 				}
 
-				if (pressedKeys.downKey == true) {
+				if (pressedKeys.downKey == true) {  // firing
 					if (facingLeft)
+					{
 						spawnObject(new bullet (-10.0,xpos, ypos));		
+	
+						xpos += 0.1;
+					}
 					else
+					{
 						spawnObject(new bullet (10.0,xpos, ypos));		
+						xpos -= 0.1;
+					}
 
 
 				}
@@ -25,32 +43,30 @@ void bamster::timerCallback(double dt)
 
 
             if ((pressedKeys.upKey == true) && !isJumping)    // start jumping
-                isJumping = true;
+				{ 
+				 	yvel += jumpPower;	
+					isJumping = true;
 
-            if (isJumping)
+				}
+            if (yvel > 0)
             {
                 if (pressedKeys.upKey == false)
-                {
-                    if ((jumpPower - framesJumping) * dt > 0)
-							  framesJumping = jumpPower;
-
-                }        
-                framesJumping++;
-                ypos = ypos + (jumpPower - framesJumping) * dt;
+						yvel = 0;
             }
 
 				// collision with boundaries
-            if (ypos < 5)
-            {
-                isJumping = false;
-                framesJumping = 0;
-                ypos = 5;    
-            }
+//            if (ypos < 5)
+  //          {
+    //            isJumping = false;
+      //          framesJumping = 0;
+        //        ypos = 5;    
+          //  }
             if (xpos < 0)
                 xpos = 0;
             if (xpos > 100)
                 xpos = 100;
-
+				fallingObject::timerCallback(dt); 
+				updateBoundingBox();			
 
         }
 

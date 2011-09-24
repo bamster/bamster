@@ -14,14 +14,14 @@ using namespace std;
 
 
 
-class bamster : public player {
+class bamster : public fallingObject {
     private:
         // Velocity in y-direction when bamster starts jumping
         float jumpPower;
         // Position of the bamster
-        float xpos, ypos;
+//        float xpos, ypos;
         // Velocity of the bamster
-        float xvel, yvel;
+        float xvel;//, yvel;
 
         bool facingLeft;
     public:
@@ -29,9 +29,11 @@ class bamster : public player {
         unsigned int framesJumping;
 
 
-        bamster () : jumpPower (12.0), xpos (10), ypos (10), xvel (1), yvel (1), framesJumping ( 0), facingLeft (true) 
+        bamster (double x, double y) : fallingObject(x,y),  jumpPower (12.0), xvel (1), framesJumping ( 0), facingLeft (true) 
         {
         }
+        
+        void updateBoundingBox(); 
 
         virtual void plot ();
 

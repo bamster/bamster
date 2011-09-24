@@ -79,7 +79,7 @@ void timerCallback (int value)
 //    glVertex2i(counter%100,210); //display a point
     //interface.plot();
     //map.plot();
-    //player.plot();
+    //object.plot();
     //
 //    if (pressedKeys.leftKey == true)
   //      counter--;

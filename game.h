@@ -9,18 +9,25 @@ class game
 {
 
     private:
-        player * thePlayer;
-		  list<player *> otherObjects;
+        object * thePlayer;
+		  list<object *> otherObjects;
 		  
     public:
         game () {
-            thePlayer = new bamster();
+            otherObjects.push_back(new bamster( 20, 50));
+				otherObjects.push_back(new hwall (50,0,100));
+				otherObjects.push_back(new hwall (50,100,100));
+
+				otherObjects.push_back(new hwall (0,50,100));
+				otherObjects.push_back(new hwall (100,50,100));
         }
 	
-		  void spawnObject(player *p)
+		  void spawnObject(object *p)
 		  {
 			  otherObjects.push_back (p);
 		  }
+
+			void handleCollisions();
 
         void plot()
         {
@@ -40,9 +47,9 @@ class game
             glEnd();
 
 
-            thePlayer -> plot();
+//            thePlayer -> plot();
 				
-				list<player *>::iterator it;
+				list<object *>::iterator it;
 				for (it = otherObjects.begin(); it != otherObjects.end(); it ++)
 					(*it)->plot();
 
@@ -50,10 +57,13 @@ class game
 
         void timerCallback()
         {
-				list<player *>::iterator it;
-            thePlayer-> timerCallback(0.5);
+				list<object *>::iterator it;
+  //          thePlayer-> timerCallback(0.5);
 				for (it = otherObjects.begin(); it != otherObjects.end(); it ++)
 					(*it)->timerCallback(0.5);
+	
+				handleCollisions();
+
 
         }
 
