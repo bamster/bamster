@@ -4,14 +4,14 @@
 void bamster::updateBoundingBox()
 
 {
-	b.xmin = xpos - 4.0;
-	b.xmax = xpos + 4.0;
-	b.ymin = ypos - 4.0;
-	b.ymax = ypos + 4.0;
+	b.xmin = xpos - size;
+	b.xmax = xpos + size;
+	b.ymin = ypos - size;
+	b.ymax = ypos + size;
 
 }
 
-void bamster::timerCallback(double dt)
+bool bamster::timerCallback(double dt)
         {
 			
 
@@ -25,6 +25,11 @@ void bamster::timerCallback(double dt)
 				}
 
 				if (pressedKeys.downKey == true) {  // firing
+					
+					if ((object::gameTime - timeLastFiring) > cadenz)
+					{
+
+					
 					if (facingLeft)
 					{
 						spawnObject(new bullet (-10.0,xpos, ypos));		
@@ -36,16 +41,17 @@ void bamster::timerCallback(double dt)
 						spawnObject(new bullet (10.0,xpos, ypos));		
 						xpos -= 0.1;
 					}
+						timeLastFiring = object::gameTime;
 
+					}	
 
 				}
 
 
 
-            if ((pressedKeys.upKey == true) && !isJumping)    // start jumping
+            if ((pressedKeys.upKey == true) && yvel == 0)    // start jumping
 				{ 
 				 	yvel += jumpPower;	
-					isJumping = true;
 
 				}
             if (yvel > 0)
@@ -61,13 +67,13 @@ void bamster::timerCallback(double dt)
       //          framesJumping = 0;
         //        ypos = 5;    
           //  }
-            if (xpos < 0)
-                xpos = 0;
-            if (xpos > 100)
-                xpos = 100;
+//            if (xpos < 0)
+  //              xpos = 0;
+    //        if (xpos > 100)
+      //          xpos = 100;
 				fallingObject::timerCallback(dt); 
 				updateBoundingBox();			
-
+				return true;
         }
 
         void bamster::plot()
@@ -76,7 +82,6 @@ void bamster::timerCallback(double dt)
             // render with points
             glBegin(GL_LINES);
             glColor3f(0.0f, 1.0f,0.0f);
-				double size = 4.0;
             glVertex2f(xpos -size, ypos - size);
             glVertex2f(xpos + size, ypos - size); 
             glVertex2f(xpos + size, ypos - size); 

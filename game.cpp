@@ -10,25 +10,21 @@ void game::handleCollisions()
 {
 	//object-object
 
-	list<object*>::iterator it, jt;
+	list<object*>::iterator it, jt, next;
 
 	unsigned int counteri, counterj;
+	char fromWhere;
+
 
 	for (it = otherObjects.begin() ; it != otherObjects.end(); it++)
 	{
-		for (jt = otherObjects.begin() ; jt != it; jt++)
+		jt = it;
+		for (jt++; jt != otherObjects.end(); jt++)
 		{
-			if (((* it)->collidesWith (**jt)) == 1)
+			if (fromWhere = ((* it)->collidesWith (**jt)))
 			{
-				(*jt)->hitpoints -= (*it)->hitpoints;
-				(*it)->hitpoints -= (*jt)->hitpoints;
-			}
-			if ((( *it)->collidesWith (**jt)) == 2)
-			{
-				if ( (*it)->ypos  > (*jt)->ypos )	
-					(*it)->stopMeFalling( (*jt)->b.ymax   );
-				else
-					(*jt)->stopMeFalling( (*it)->b.ymax  );
+				(*it)-> collision(*jt, fromWhere);
+				(*jt)-> collision(*it, otherSide(fromWhere));
 
 
 			}
@@ -37,6 +33,8 @@ void game::handleCollisions()
 	}
 
 }
+
+
 
 void spawnObject (object *p)
 { 

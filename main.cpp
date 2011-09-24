@@ -9,7 +9,7 @@
 #include "keyLogger.h"
 #include "game.h"
 
-const unsigned int elapsedUSecs = 40;
+const unsigned int elapsedUSecs = 3;
 
 
 
