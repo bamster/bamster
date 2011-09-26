@@ -6,7 +6,8 @@ extern struct keyLogger {
     bool leftKey;
     bool rightKey;
     bool upKey;
-	 bool downKey;
+    bool downKey;
+    bool spaceKey;
 } pressedKeys ;
 
 

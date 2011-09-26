@@ -72,29 +72,29 @@ void handleKeypress (unsigned char key, int x, int y)
         case 27:
             //			cleanup();
             exit(0);
+        case 32:
+            pressedKeys.spaceKey= true;
+            break;
+
     }
+}
+
+void handleKeyReleased (unsigned char key, int x, int y)
+{
+    switch (key) {
+        case 32:
+            pressedKeys.spaceKey = false;
+            break;
+    }
+
 }
 
 
 
 
 
-
 void timerCallback (int value) 
-{ 
-   // glClear ( GL_COLOR_BUFFER_BIT ); //clear pixel buffer
-  //  glBegin(GL_POINTS);
-    // render with points
-  //  glColor3f(0.0f, 1.0f,0.0f);
-//    glVertex2i(counter%100,210); //display a point
-    //interface.plot();
-    //map.plot();
-    //object.plot();
-    //
-//    if (pressedKeys.leftKey == true)
-  //      counter--;
-   // if (pressedKeys.rightKey == true)
-   //     counter++;
+{
 
     theBamsterGame->timerCallback();
     theBamsterGame->plot();
@@ -123,6 +123,9 @@ void handleSpecialKeyReleased(int key, int x, int y) {
             break;
         case GLUT_KEY_DOWN:
             pressedKeys.downKey = false;
+            break;
+        case 32: // 32 is spacebar
+            pressedKeys.spaceKey= false;
             break;
     }
 }
@@ -172,6 +175,7 @@ int main(int argc, char **argv) {
     glutDisplayFunc (plot );
     glutTimerFunc ( 40,timerCallback,1 ) ;
     glutKeyboardFunc(handleKeypress);
+    glutKeyboardUpFunc(handleKeyReleased);
     glutSpecialFunc(handleSpecialKeypress);
     glutSpecialUpFunc(handleSpecialKeyReleased);
     glutMainLoop ( );

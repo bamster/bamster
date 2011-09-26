@@ -26,7 +26,7 @@ bool bamster::timerCallback(double dt)
 					facingLeft = false;
 				}
 
-				if (pressedKeys.downKey == true) {  // firing
+				if ((pressedKeys.downKey == true) || (pressedKeys.spaceKey == true)) {  // firing
 					
 					if ((object::gameTime - timeLastFiring) > cadenz)
 					{
