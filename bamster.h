@@ -30,6 +30,9 @@ class bamster : public fallingObject {
         // Velocity of the bamster
 
         bool facingLeft;
+        GLuint bamsterWait[4];
+        GLuint bamsterRun[7];
+        GLuint bamsterJump[8];
     public:
         bool isJumping;
         double timeLastFiring;
@@ -66,6 +69,13 @@ class bamster : public fallingObject {
 
 
         virtual bool timerCallback(double dt);
+
+        virtual void loadAnimations() {
+             Image* image = loadBMP("animations/bamster_wait_r0.bmp");
+            bamsterWait[0] = loadTexture(image);
+            delete image;
+
+        };
 
 };
 
