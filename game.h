@@ -2,6 +2,13 @@
 
 #include <list>
 
+#ifdef __APPLE__
+#include <OpenGL/OpenGL.h>
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#include <GL/freeglut_ext.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,6 +50,11 @@ class game
 				list<object *>::iterator it;
 				for (it = otherObjects.begin(); it != otherObjects.end(); it ++)
 					(*it)->plot();
+				glRasterPos2i(150, 80);
+				glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+				const char* textToRender = "your points:";
+				glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)textToRender );
+
 
         }
 
