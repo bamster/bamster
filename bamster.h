@@ -21,13 +21,10 @@ class bamster : public fallingObject {
         static const float cadenz = 10.0;
             
         static const float size = 3.0;
-
+	
         int waitingAnimationState;
         int saltoAnimationState;
-
-        // Position of the bamster
-//        float xpos, ypos;
-        // Velocity of the bamster
+	bool isRunning;
 
         bool facingLeft;
         GLuint bamsterRun[7];
@@ -50,9 +47,28 @@ class bamster : public fallingObject {
             bamsterWait[2] = loadTexture(image);
             image = loadBMP("animations/bamster_wait_r3.bmp");
             bamsterWait[3] = loadTexture(image);
+            image = loadBMP("animations/bamster_run_r0.bmp");
+
+            bamsterRun[0] = loadTexture(image);
+            image = loadBMP("animations/bamster_run_r0.bmp");
+            bamsterRun[1] = loadTexture(image);
+            image = loadBMP("animations/bamster_run_r1.bmp");
+            bamsterRun[2] = loadTexture(image);
+            image = loadBMP("animations/bamster_run_r2.bmp");
+            bamsterRun[3] = loadTexture(image);
+            image = loadBMP("animations/bamster_run_r3.bmp");
+            bamsterRun[4] = loadTexture(image);
+            image = loadBMP("animations/bamster_run_r4.bmp");
+            bamsterRun[5] = loadTexture(image);
+            image = loadBMP("animations/bamster_run_r5.bmp");
+            bamsterRun[6] = loadTexture(image);
+            image = loadBMP("animations/bamster_run_r6.bmp");
+
             delete image;
             hitpoints=1;
             gravity=1.0;
+	    waitingAnimationState=0;
+	    
         }
         
         void updateBoundingBox(); 
@@ -72,7 +88,6 @@ class bamster : public fallingObject {
             if (fromWhere == fromRight)
                 xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
             if (fromWhere == fromUp)
-                //if (((fallingObject *)with)->yvel<0)
                     hitpoints--;
             else
                 fallingObject::collision(with,fromWhere);

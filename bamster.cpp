@@ -13,41 +13,43 @@ void bamster::updateBoundingBox()
 
 bool bamster::timerCallback(double dt)
         {
-			
-
+	isRunning = false;
             if (pressedKeys.leftKey == true) {
                 timeLastMoving = object::gameTime;
                 xpos-= xvel * dt;
-					 facingLeft = true;
-				}
+		facingLeft = true;
+		isRunning = true;
+		}
+
             if (pressedKeys.rightKey == true) {
                 timeLastMoving = object::gameTime;
                 xpos+= xvel * dt;
-					facingLeft = false;
-				}
+		facingLeft = false;
+		isRunning = true;
+		}
 
-				if ((pressedKeys.downKey == true) || (pressedKeys.spaceKey == true)) {  // firing
-					
-					if ((object::gameTime - timeLastFiring) > cadenz)
-					{
+	if ((pressedKeys.downKey == true) || (pressedKeys.spaceKey == true)) {  // firing
+		
+		if ((object::gameTime - timeLastFiring) > cadenz)
+		{
 
-					
-					if (facingLeft)
-					{
-						spawnObject(new bullet (-10.0,xpos, ypos));		
+		
+		if (facingLeft)
+		{
+			spawnObject(new bullet (-10.0,xpos, ypos));		
 	
-						xpos += 0.1;
-					}
-					else
-					{
-						spawnObject(new bullet (10.0,xpos, ypos));		
-						xpos -= 0.1;
-					}
-						timeLastFiring = object::gameTime;
+			xpos += 0.1;
+		}
+		else
+		{
+			spawnObject(new bullet (10.0,xpos, ypos));		
+			xpos -= 0.1;
+		}
+			timeLastFiring = object::gameTime;
 
-					}	
+		}	
 
-				}
+	}
 
 
 
@@ -68,14 +70,14 @@ bool bamster::timerCallback(double dt)
 
         void bamster::plot()
         {
-            Image* image = loadBMP("animations/bamster_wait_r0.bmp");
-            GLuint bamster_wait_r0 = loadTexture(image);
-            delete image;
-
 
             // render with qudas
             glEnable(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, bamsterWait[0]);
+	    if ( isRunning == true )
+            	glBindTexture(GL_TEXTURE_2D, bamsterRun[waitingAnimationState%7]);
+		else
+            	glBindTexture(GL_TEXTURE_2D, bamsterWait[waitingAnimationState%4]);
+	    waitingAnimationState++;
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glDisable(GL_NORMALIZE);
