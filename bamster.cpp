@@ -16,11 +16,13 @@ bool bamster::timerCallback(double dt)
 			
 
             if (pressedKeys.leftKey == true) {
+                timeLastMoving = object::gameTime;
                 xpos-= xvel * dt;
 					 facingLeft = true;
 				}
             if (pressedKeys.rightKey == true) {
-               xpos+= xvel * dt;
+                timeLastMoving = object::gameTime;
+                xpos+= xvel * dt;
 					facingLeft = false;
 				}
 
@@ -49,10 +51,9 @@ bool bamster::timerCallback(double dt)
 
 
 
-            if ((pressedKeys.upKey == true) && yvel == 0)    // start jumping
-				{
-                    yvel += jumpPower;	
-
+            if ((pressedKeys.upKey == true) && yvel == 0) {  // start jumping
+                timeLastMoving = object::gameTime;
+                    yvel += jumpPower;
 				}
             if (yvel > 0)
             {
@@ -93,16 +94,25 @@ bool bamster::timerCallback(double dt)
             glNormal3f(0, 1, 0);
             glBegin(GL_QUADS);
             //glColor3f(0.0f, 1.0f,0.0f);
-            glTexCoord2f(0,0);
-            glVertex2f(xpos -size, ypos - size);
-            glTexCoord2f(1,0);
-            glVertex2f(xpos + size, ypos - size); 
-            glTexCoord2f(1,1);
-            glVertex2f(xpos + size, ypos + size); 
-            glTexCoord2f(0,1);
-            glVertex2f(xpos - size, ypos + size);
+            if (facingLeft) {
+                glTexCoord2f(1,0);
+                glVertex2f(xpos -size, ypos - size);
+                glTexCoord2f(0,0);
+                glVertex2f(xpos + size, ypos - size); 
+                glTexCoord2f(0,1);
+                glVertex2f(xpos + size, ypos + size); 
+                glTexCoord2f(1,1);
+                glVertex2f(xpos - size, ypos + size);
+            }
+            else {
+                glTexCoord2f(0,0);
+                glVertex2f(xpos -size, ypos - size);
+                glTexCoord2f(1,0);
+                glVertex2f(xpos + size, ypos - size); 
+                glTexCoord2f(1,1);
+                glVertex2f(xpos + size, ypos + size); 
+                glTexCoord2f(0,1);
+                glVertex2f(xpos - size, ypos + size);
+            }
             glEnd();
-
-
-
         }

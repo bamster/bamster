@@ -22,6 +22,9 @@ class bamster : public fallingObject {
             
         static const float size = 3.0;
 
+        int waitingAnimationState;
+        int saltoAnimationState;
+
         // Position of the bamster
 //        float xpos, ypos;
         // Velocity of the bamster
@@ -30,6 +33,7 @@ class bamster : public fallingObject {
     public:
         bool isJumping;
         double timeLastFiring;
+        double timeLastMoving;
         unsigned int framesJumping;
 
 
