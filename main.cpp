@@ -92,8 +92,6 @@ void handleKeyReleased (unsigned char key, int x, int y)
 
 
 
-
-
 void timerCallback (int value) 
 {
 
@@ -103,7 +101,6 @@ void timerCallback (int value)
     glFlush();
 
 
-  //  glEnd();
     /* Do timer processing */
     /* maybe glutPostRedisplay(), if necessary */
     /* call back again after elapsedUSecs have passed */
@@ -147,12 +144,8 @@ void handleSpecialKeypress(int key, int x, int y) {
         case GLUT_KEY_DOWN:
             pressedKeys.downKey = true;
             break;
-    }       
+    }
 }
-
-
-
-
 
 
 
@@ -180,9 +173,6 @@ int main(int argc, char **argv) {
     glutSpecialFunc(handleSpecialKeypress);
     glutSpecialUpFunc(handleSpecialKeyReleased);
     glutMainLoop ( );
-
-
-
 
 
 
