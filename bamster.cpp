@@ -64,6 +64,7 @@ bool bamster::timerCallback(double dt)
 				//updateBoundingBox();			
 				return fallingObject::timerCallback(dt);
         }
+        
 
         void bamster::plot()
         {
@@ -74,7 +75,7 @@ bool bamster::timerCallback(double dt)
 
             // render with qudas
             glEnable(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, bamster_wait_r0);
+            glBindTexture(GL_TEXTURE_2D, bamsterWait[0]);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glDisable(GL_NORMALIZE);
@@ -103,10 +104,9 @@ bool bamster::timerCallback(double dt)
                 glVertex2f(xpos - size, ypos + size);
             }
             glEnd();
+            glEnable(GL_NORMALIZE);
+            glDisable(GL_TEXTURE_2D);
         }
         
-
-
-
 
 
