@@ -30,8 +30,8 @@ class bamster : public fallingObject {
         // Velocity of the bamster
 
         bool facingLeft;
-        GLuint bamsterWait[4];
         GLuint bamsterRun[7];
+        GLuint bamsterWait[4];
         GLuint bamsterJump[8];
     public:
         bool isJumping;
@@ -42,12 +42,21 @@ class bamster : public fallingObject {
 
         bamster (double x, double y) : fallingObject(x,y),    framesJumping ( 0), facingLeft (true), timeLastFiring (0.0)
         {
+            Image* image = loadBMP("animations/bamster_wait_r0.bmp");
+            bamsterWait[0] = loadTexture(image);
+            image = loadBMP("animations/bamster_wait_r1.bmp");
+            bamsterWait[1] = loadTexture(image);
+            image = loadBMP("animations/bamster_wait_r2.bmp");
+            bamsterWait[2] = loadTexture(image);
+            image = loadBMP("animations/bamster_wait_r3.bmp");
+            bamsterWait[3] = loadTexture(image);
+            delete image;
             hitpoints=1;
             gravity=1.0;
         }
         
         void updateBoundingBox(); 
-
+        void loadAnimations();
         virtual void plot ();
 		virtual objectInfo getObjectInfo() { return _player_;} 
             
@@ -75,12 +84,6 @@ class bamster : public fallingObject {
 
         virtual bool timerCallback(double dt);
 
-        virtual void loadAnimations() {
-             Image* image = loadBMP("animations/bamster_wait_r0.bmp");
-            bamsterWait[0] = loadTexture(image);
-            delete image;
-
-        };
 
 };
 

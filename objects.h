@@ -213,16 +213,12 @@ class block: public fallingObject
 		double size;
 	public:
 		virtual void plot() {
-			glBegin(GL_LINES);
-			glColor3f(0.0f, 1.0f,0.0f);
+			glColor3f(rand()%100*0.01, rand()%100*0.01, rand()%100*0.01);
+			glBegin(GL_QUADS);
 			glVertex2f(xpos - size / 2, ypos- size / 2);
 			glVertex2f(xpos + size / 2, ypos- size / 2);
-			glVertex2f(xpos + size / 2, ypos- size / 2);
-			glVertex2f(xpos + size / 2, ypos+ size / 2);
 			glVertex2f(xpos + size / 2, ypos+ size / 2);
 			glVertex2f(xpos - size / 2, ypos+ size / 2);
-			glVertex2f(xpos - size / 2, ypos+ size / 2);
-			glVertex2f(xpos - size / 2, ypos- size / 2);
 			glEnd();	
 		}
 		void updateBoundingBox ()

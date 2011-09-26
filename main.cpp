@@ -50,10 +50,10 @@ void plot ( void ) {
 }
 
 
-void MyInit ( void ) {
+void myInit ( void ) {
     cout << glGetString(GL_VERSION) <<"\n";
     cout << glGetString(GL_VENDOR) <<"\n";
-    glClearColor ( 1.0, 1.0, 1.0, 0.0 ); //white background
+    glClearColor ( 0.0, 0.0, 0.0, 0.0 ); //white background
     glColor3f(0.0f, 1.0f,0.0f);
     // green drawing colour
     glPointSize(10.0);
@@ -61,6 +61,7 @@ void MyInit ( void ) {
     glMatrixMode ( GL_PROJECTION );
     glLoadIdentity ( );
     gluOrtho2D ( 0.0, (GLdouble)ww, 0.0, (GLdouble)wh ); //Display area
+    glEnable(GL_COLOR_MATERIAL);
 }
 
 
@@ -157,8 +158,6 @@ void handleSpecialKeypress(int key, int x, int y) {
 
 int main(int argc, char **argv) {
 
-    theBamsterGame = new game();
-    activGame = theBamsterGame;
 
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
@@ -169,8 +168,10 @@ int main(int argc, char **argv) {
         ( 180, 90 ); // & position on screen
     glutCreateWindow
         ( "Display a Dot" );
-    MyInit ( );
+    myInit ( );
 
+    theBamsterGame = new game();
+    activGame = theBamsterGame;
 
     glutDisplayFunc (plot );
     glutTimerFunc ( 40,timerCallback,1 ) ;
