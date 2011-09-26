@@ -18,7 +18,7 @@ class bamster : public fallingObject {
         // Velocity in y-direction when bamster starts jumping
         static const float jumpPower = 5.0;
         static const float xvel = 2.0;
-        static const float cadenz = 2.0;
+        static const float cadenz = 10.0;
             
         static const float size = 3.0;
 
@@ -40,8 +40,10 @@ class bamster : public fallingObject {
         unsigned int framesJumping;
 
 
-        bamster (double x, double y) : fallingObject(x,y),    framesJumping ( 0), facingLeft (true), timeLastFiring (0.0) 
+        bamster (double x, double y) : fallingObject(x,y),    framesJumping ( 0), facingLeft (true), timeLastFiring (0.0)
         {
+            hitpoints=1;
+            gravity=1.0;
         }
         
         void updateBoundingBox(); 
@@ -60,6 +62,9 @@ class bamster : public fallingObject {
                 xpos = (b.xmax - b.xmin) / 2.0 + with-> b.xmax;
             if (fromWhere == fromRight)
                 xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
+            if (fromWhere == fromUp)
+                //if (((fallingObject *)with)->yvel<0)
+                    hitpoints--;
             else
                 fallingObject::collision(with,fromWhere);
 

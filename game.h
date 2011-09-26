@@ -36,18 +36,6 @@ class game
         {
 
             glClear ( GL_COLOR_BUFFER_BIT ); //clear pixel buffer
-            // render with points
-//            glBegin(GL_LINES);
-//            glColor3f(0.0f, 1.0f,0.0f);
-//            glVertex2f(0, 0);
-//            glVertex2f(100, 0); 
-//            glVertex2f(100, 0); 
-//            glVertex2f(100, 100); 
-//            glVertex2f(100, 100); 
-//            glVertex2f(0, 100);
-//            glVertex2f(0, 100);
-//            glVertex2f(0, 0);
-//            glEnd();
 //
 //
 //            thePlayer -> plot();
@@ -60,8 +48,8 @@ class game
 
         void timerCallback()
         {
-			  object::gameTime += 0.1;
-			  if (rand() % 100 > 97)
+			  object::gameTime += 1;
+			  if (rand() % 100 > 98)
 				  otherObjects.push_back( new block (rand() % 100, 80, 5));
 				
 

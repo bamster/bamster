@@ -25,7 +25,7 @@ struct boundingBox
 };
 
 
-const double gravity = 1.0;
+//const double gravity = 1.0;
 
 const char fromLeft = 1;
 const char fromRight = 2;
@@ -118,7 +118,9 @@ class fallingObject : public object
 	private:
 public:
 		float yvel;
-		fallingObject (double x, double y) : object (x,y) {}	
+		double gravity;
+		unsigned int hitpoints;
+		fallingObject (double x, double y) : object (x,y), gravity(0.1) {}	
 
 		virtual void stopMeFalling (double height)
 		{
@@ -144,6 +146,10 @@ public:
 			ypos += yvel* dt;
 			yvel -= gravity*dt;
 			updateBoundingBox();
+			if (hitpoints == 0)
+				return 0;
+			else 
+				return 1;
 			return true;
 		}
 
@@ -205,7 +211,6 @@ class block: public fallingObject
 {
 	private:
 		double size;
-		unsigned int hitpoints;
 	public:
 		virtual void plot() {
 			glBegin(GL_LINES);
@@ -227,7 +232,7 @@ class block: public fallingObject
 			b.ymin = ypos - size / 2;
 			b.ymax = ypos + size / 2;
 		}			
-		block (double x, double y, double l) : fallingObject (x,y), size ( l), hitpoints(1) {  updateBoundingBox();   };
+		block (double x, double y, double l) : fallingObject (x,y), size ( l)  {  updateBoundingBox();  hitpoints=3; };
 		virtual void collision (object *with, char fromWhere) {
 			if (with->getObjectInfo() == _bullet_)
 			{
@@ -242,12 +247,8 @@ class block: public fallingObject
 
 		virtual bool timerCallback(double dt)
 		{
-			fallingObject::timerCallback(dt);	
+			return fallingObject::timerCallback(dt);
 
-			if (hitpoints == 0)
-				return 0;
-			else 
-				return 1;
 		}
 
 };

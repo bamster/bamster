@@ -61,20 +61,8 @@ bool bamster::timerCallback(double dt)
 						yvel = 0;
             }
 
-				// collision with boundaries
-//            if (ypos < 5)
-  //          {
-    //            isJumping = false;
-      //          framesJumping = 0;
-        //        ypos = 5;    
-          //  }
-//            if (xpos < 0)
-  //              xpos = 0;
-    //        if (xpos > 100)
-      //          xpos = 100;
-				fallingObject::timerCallback(dt); 
-				updateBoundingBox();			
-				return true;
+				//updateBoundingBox();			
+				return fallingObject::timerCallback(dt);
         }
 
         void bamster::plot()
