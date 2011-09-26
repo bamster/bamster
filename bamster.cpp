@@ -1,3 +1,4 @@
+// vim: set ts=4 sw=4 expandtab sts=4:
 #include "bamster.h"
 
 
@@ -80,16 +81,12 @@ bool bamster::timerCallback(double dt)
         {
 
             // render with points
-            glBegin(GL_LINES);
+            glBegin(GL_QUADS);
             glColor3f(0.0f, 1.0f,0.0f);
             glVertex2f(xpos -size, ypos - size);
             glVertex2f(xpos + size, ypos - size); 
-            glVertex2f(xpos + size, ypos - size); 
-            glVertex2f(xpos + size, ypos + size); 
             glVertex2f(xpos + size, ypos + size); 
             glVertex2f(xpos - size, ypos + size);
-            glVertex2f(xpos - size, ypos + size);
-            glVertex2f(xpos - size, ypos - size);
             glEnd();
 
 
