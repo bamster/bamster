@@ -1,8 +1,19 @@
 #include "bamster.h"
 
 
-void bamster::timerCallback(double dt)
+void bamster::updateBoundingBox()
+
+{
+	b.xmin = xpos - size;
+	b.xmax = xpos + size;
+	b.ymin = ypos - size;
+	b.ymax = ypos + size;
+
+}
+
+bool bamster::timerCallback(double dt)
         {
+			
 
             if (pressedKeys.leftKey == true) {
                 xpos-= xvel * dt;
@@ -13,45 +24,56 @@ void bamster::timerCallback(double dt)
 					facingLeft = false;
 				}
 
-				if (pressedKeys.downKey == true) {
-					if (facingLeft)
-						spawnObject(new bullet (-10.0,xpos, ypos));		
-					else
-						spawnObject(new bullet (10.0,xpos, ypos));		
+				if (pressedKeys.downKey == true) {  // firing
+					
+					if ((object::gameTime - timeLastFiring) > cadenz)
+					{
 
+					
+					if (facingLeft)
+					{
+						spawnObject(new bullet (-10.0,xpos, ypos));		
+	
+						xpos += 0.1;
+					}
+					else
+					{
+						spawnObject(new bullet (10.0,xpos, ypos));		
+						xpos -= 0.1;
+					}
+						timeLastFiring = object::gameTime;
+
+					}	
 
 				}
 
 
 
-            if ((pressedKeys.upKey == true) && !isJumping)    // start jumping
-                isJumping = true;
+            if ((pressedKeys.upKey == true) && yvel == 0)    // start jumping
+				{ 
+				 	yvel += jumpPower;	
 
-            if (isJumping)
+				}
+            if (yvel > 0)
             {
                 if (pressedKeys.upKey == false)
-                {
-                    if ((jumpPower - framesJumping) * dt > 0)
-							  framesJumping = jumpPower;
-
-                }        
-                framesJumping++;
-                ypos = ypos + (jumpPower - framesJumping) * dt;
+						yvel = 0;
             }
 
 				// collision with boundaries
-            if (ypos < 5)
-            {
-                isJumping = false;
-                framesJumping = 0;
-                ypos = 5;    
-            }
-            if (xpos < 0)
-                xpos = 0;
-            if (xpos > 100)
-                xpos = 100;
-
-
+//            if (ypos < 5)
+  //          {
+    //            isJumping = false;
+      //          framesJumping = 0;
+        //        ypos = 5;    
+          //  }
+//            if (xpos < 0)
+  //              xpos = 0;
+    //        if (xpos > 100)
+      //          xpos = 100;
+				fallingObject::timerCallback(dt); 
+				updateBoundingBox();			
+				return true;
         }
 
         void bamster::plot()
@@ -60,7 +82,6 @@ void bamster::timerCallback(double dt)
             // render with points
             glBegin(GL_LINES);
             glColor3f(0.0f, 1.0f,0.0f);
-				double size = 4.0;
             glVertex2f(xpos -size, ypos - size);
             glVertex2f(xpos + size, ypos - size); 
             glVertex2f(xpos + size, ypos - size); 

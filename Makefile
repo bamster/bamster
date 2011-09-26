@@ -2,7 +2,7 @@ CC = g++
 CFLAGS = -Wall -g
 PROG = bamster
 
-SRCS = main.cpp imageloader.cpp bamster.cpp keyLogger.cpp game.cpp
+SRCS = imageloader.cpp bamster.cpp keyLogger.cpp  game.cpp main.cpp objects.cpp
 OBJS =  $(SRCS:.cpp=.o)
 
 
@@ -21,12 +21,12 @@ dependencies: $(SRCS)
 	gcc -MM $(SRCS) > dependencies
 
 
--include dependencie
+-include dependencies
 
 all: $(PROG)
 
-%.o : %.cpp
-	gcc $*.cpp -c
+%.o :: %.cpp
+	gcc $*.cpp -g -c
 
 
 
