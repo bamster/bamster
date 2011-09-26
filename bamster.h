@@ -1,4 +1,3 @@
-// vim: set ts=4 sw=4 expandtab sts=4:
 #ifndef BAMSTER_H_INCLUDED
 #define BAMSTER_H_INCLUDED
 

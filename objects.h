@@ -2,9 +2,17 @@
 #define objects_h objects_h
 
 #include <X11/Xlib.h>
+
+#ifdef __APPLE__
+#include <OpenGL/OpenGL.h>
+#include <GLUT/glut.h>
+#else
 #include <GL/glut.h>
+#endif
 
 #include <iostream>
+
+#include "imageloader.h"
 
 using namespace std;
 
@@ -55,6 +63,21 @@ class object {
 
 
 		virtual void updateBoundingBox() { cout << "updateBoundingBox of object called" << endl; }
+
+		GLuint loadTexture(Image *image) {
+			GLuint textureId;
+			glGenTextures(1, &textureId);
+			glBindTexture(GL_TEXTURE_2D, textureId);
+			glTexImage2D(GL_TEXTURE_2D,
+									0,
+									GL_RGB,
+									image->width, image->height,
+									0,
+									GL_RGB,
+									GL_UNSIGNED_BYTE,
+									image->pixels);
+			return textureId;
+		}
 
 
 		char collidesWith (object &o)  // return 0 for no, 1 for horizontal, 2 for vertical collision

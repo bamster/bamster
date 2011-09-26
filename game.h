@@ -8,30 +8,27 @@
 
 
 
-class game 
+class game
 {
 
     private:
         object * thePlayer;
-		  list<object *> otherObjects;
-		  
+		list<object *> otherObjects;
     public:
 
         game () {
+		srand (time(NULL));
+		otherObjects.push_back(new bamster( 20, 50));
+		otherObjects.push_back(new hwall (50,0,100));
+		otherObjects.push_back(new hwall (50,100,100));
 
-			  	srand (time(NULL));
-            otherObjects.push_back(new bamster( 20, 50));
-				otherObjects.push_back(new hwall (50,0,100));
-				otherObjects.push_back(new hwall (50,100,100));
-
-				otherObjects.push_back(new vwall (0,50,100));
-				otherObjects.push_back(new vwall (100,50,100));
+		otherObjects.push_back(new vwall (0,50,100));
+		otherObjects.push_back(new vwall (100,50,100));
         }
 	
-		  void spawnObject(object *p)
-		  {
-			  otherObjects.push_back (p);
-		  }
+		void spawnObject(object *p) {
+			otherObjects.push_back (p);
+		}
 
 			void handleCollisions();
 
