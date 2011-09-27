@@ -25,7 +25,7 @@ class game
     public:
 	unsigned int score;
         game ()
-	{
+	
 		srand (time(NULL));
 		otherObjects.push_back(new bamster( 20, 50));
 		otherObjects.push_back(new hwall (50,0,100));
@@ -84,6 +84,22 @@ class game
 
 
         }
+
+	GLuint loadTexture(Image *image) {
+		GLuint textureId;
+		glGenTextures(1, &textureId);
+		glBindTexture(GL_TEXTURE_2D, textureId);
+		glTexImage2D(GL_TEXTURE_2D,
+								0,
+								GL_RGB,
+								image->width, image->height,
+								0,
+								GL_RGB,
+								GL_UNSIGNED_BYTE,
+								image->pixels);
+		return textureId;
+	}
+
 
 };
 

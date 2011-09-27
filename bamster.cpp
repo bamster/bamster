@@ -42,7 +42,7 @@ bool bamster::timerCallback(double dt)
 		}
 		else
 		{
-			spawnObject(new bullet (10.0,xpos, ypos));		
+			spawnObject(new bullet (3.0,xpos, ypos));		
 			xpos -= 0.1;
 		}
 			timeLastFiring = object::gameTime;
@@ -77,7 +77,7 @@ bool bamster::timerCallback(double dt)
             	glBindTexture(GL_TEXTURE_2D, bamsterRun[waitingAnimationState%7]);
 		else
             	glBindTexture(GL_TEXTURE_2D, bamsterWait[waitingAnimationState%4]);
-	    waitingAnimationState++;
+            waitingAnimationState++;
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glDisable(GL_NORMALIZE);

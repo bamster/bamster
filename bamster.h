@@ -18,7 +18,7 @@ class bamster : public fallingObject {
         // Velocity in y-direction when bamster starts jumping
         static const float jumpPower = 5.0;
         static const float xvel = 2.0;
-        static const float cadenz = 10.0;
+        static const float cadenz = 40.0;
             
         static const float size = 3.0;
 	
@@ -72,7 +72,6 @@ class bamster : public fallingObject {
         }
         
         void updateBoundingBox(); 
-        void loadAnimations();
         virtual void plot ();
 		virtual objectInfo getObjectInfo() { return _player_;} 
             

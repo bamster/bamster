@@ -43,7 +43,6 @@ typedef enum_objectInfo objectInfo;
 class object {
 	protected:
 	public:
-
 		static double gameTime;
 
 
@@ -259,19 +258,19 @@ class bullet : public object
 		bullet (double s, double x, double y) : speed(s), object(x,y), hitSomething(false) {}
 		void plot ()
 		{	
-			// render with points
-			glBegin(GL_LINES);
-			glColor3f(0.0f, 1.0f,0.0f);
 			double size = 0.3;
-			glVertex2f(xpos - size*4.0, ypos - size);
-			glVertex2f(xpos + size*4.0, ypos - size); 
-			glVertex2f(xpos + size*4.0, ypos - size); 
-			glVertex2f(xpos + size*4.0, ypos + size); 
-			glVertex2f(xpos + size*4.0, ypos + size); 
-			glVertex2f(xpos - size*4.0, ypos + size);
-			glVertex2f(xpos - size*4.0, ypos + size);
-			glVertex2f(xpos - size*4.0, ypos - size);
-			glEnd();
+            glNormal3f(0, 1, 0);
+            glBegin(GL_QUADS);
+            glColor3f(1, 1, 1);
+                glTexCoord2f(1,0);
+                glVertex2f(xpos -size*4, ypos - size);
+                glTexCoord2f(0,0);
+                glVertex2f(xpos + size*4, ypos - size); 
+                glTexCoord2f(0,1);
+                glVertex2f(xpos + size*4, ypos + size); 
+                glTexCoord2f(1,1);
+                glVertex2f(xpos - size*4, ypos + size);
+            glEnd();
 		}
 
 		virtual objectInfo getObjectInfo() { return _bullet_;  }
