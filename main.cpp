@@ -29,8 +29,8 @@ void handelKeypress(unsigned char key, int x, int y) {
     }
 
 using std::cout;
-GLsizei wh = 250 ;
-GLsizei ww = 250 ;
+GLsizei wh = 130 ;
+GLsizei ww = 130 ;
 //dot.cpp
 // initial height of window
 // initial width of window
@@ -154,13 +154,9 @@ int main(int argc, char **argv) {
 
     glutInit( &argc, argv );
     glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB );
-    glutInitWindowSize
-        ( ww, wh );
-    // window size
-    glutInitWindowPosition
-        ( 180, 90 ); // & position on screen
-    glutCreateWindow
-        ( "Display a Dot" );
+    glutInitWindowSize( ww, wh ); // window size
+    glutInitWindowPosition ( 0, 0 ); // & position on screen
+    glutCreateWindow( "It's BAMster Time!" );
     myInit ( );
 
     theBamsterGame = new game();

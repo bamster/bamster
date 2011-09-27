@@ -51,16 +51,15 @@ class game
 				for (it = otherObjects.begin(); it != otherObjects.end(); it ++)
 					(*it)->plot();
 
-				glRasterPos2i(150, 80);
+				glColor3f(0.0f, 0.0f, 1.0f);
+				glRasterPos2i(30, 110);
 				glColor3f(0.0f, 0.0f, 1.0f);
 				const char* textToRender = "your points:";
 				glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)textToRender );
 				char buffer[12];
 				sprintf(buffer, "%d", score);
 				glColor3f(0.0f, 0.0f, 1.0f);
-				glRasterPos2i(150, 70);
-
-
+				glRasterPos2i(30, 105);
 				glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)buffer );
 
 
