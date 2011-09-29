@@ -24,9 +24,9 @@ int hamsterPos=0;
 
 void handelKeypress(unsigned char key, int x, int y) {
     switch (key)
-        case 27: //Escape
-            exit(0);
-    }
+    case 27: //Escape
+        exit(0);
+}
 
 using std::cout;
 GLsizei wh = 130 ;
