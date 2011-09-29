@@ -16,11 +16,14 @@ using namespace std;
 class bamster : public fallingObject {
     private:
         // Velocity in y-direction when bamster starts jumping
+	// only static const INTs maybe in-class constants
+	// see Bjarne Stroustrup's C++ Style and Technique FAQ
+	// http://www2.research.att.com/~bs/bs_faq2.html#in-class
         float jumpPower;
-        static const float xvel = 2.0;
-        static const float cadenz = 40.0;
+        enum  { xvel = 2 };
+        enum {cadenz = 40};
             
-        static const float size = 3.0;
+        enum {size = 3};
 	
         int waitingAnimationState;
         int saltoAnimationState;
