@@ -1,4 +1,4 @@
-CC = g++
+CC = gcc
 CFLAGS = -Wall -g
 PROG = bamster
 
@@ -18,7 +18,7 @@ $(PROG):	dependencies $(OBJS)
 	$(CC) $(CFLAGS) -o $(PROG) $(OBJS) $(LIBS)
 
 dependencies: $(SRCS)
-	gcc -MM $(SRCS) > dependencies
+	$(CC) -MM $(SRCS) > dependencies
 
 
 -include dependencies
@@ -26,7 +26,7 @@ dependencies: $(SRCS)
 all: $(PROG)
 
 %.o :: %.cpp
-	gcc $*.cpp -g -c
+	$(CC) $*.cpp -g -c
 
 
 
