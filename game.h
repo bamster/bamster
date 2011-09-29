@@ -72,7 +72,11 @@ class game
 			if (rand() % 100 > 98)
 				otherObjects.push_back( new block (rand() % 100, 80, 5));
 
+			if (score == 20) {
+				otherObjects.push_back(new addon (rand() % 100, 80, 1, 1));
+				score++;
 
+			}
 			list<object *>::iterator it;
 			//          thePlayer-> timerCallback(0.5);
 			for (it = otherObjects.begin(); it != otherObjects.end(); it ++)

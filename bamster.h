@@ -16,7 +16,7 @@ using namespace std;
 class bamster : public fallingObject {
     private:
         // Velocity in y-direction when bamster starts jumping
-        static const float jumpPower = 5.0;
+        float jumpPower;
         static const float xvel = 2.0;
         static const float cadenz = 40.0;
             
@@ -30,6 +30,7 @@ class bamster : public fallingObject {
         GLuint bamsterRun[7];
         GLuint bamsterWait[4];
         GLuint bamsterJump[8];
+	unsigned int addonType;
     public:
         bool isJumping;
         double timeLastFiring;
@@ -37,7 +38,7 @@ class bamster : public fallingObject {
         unsigned int framesJumping;
 
 
-        bamster (double x, double y) : fallingObject(x,y),    framesJumping ( 0), facingLeft (true), timeLastFiring (0.0)
+        bamster (double x, double y) : fallingObject(x,y),    framesJumping ( 0), facingLeft (true), timeLastFiring (0.0), jumpPower (5.0)
         {
             Image* image = loadBMP("animations/bamster_wait_r0.bmp");
             bamsterWait[0] = loadTexture(image);
@@ -92,6 +93,14 @@ class bamster : public fallingObject {
                 fallingObject::collision(with,fromWhere);
 
             }
+	    if (with->getObjectInfo() == _addon_)
+	    {
+		    switch (((addon*)with)->addonType){
+		    case 1:
+			jumpPower = 6.0;
+			break;
+		    }
+	    }
         }
 
 

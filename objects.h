@@ -35,7 +35,7 @@ const char fromDown = 4;
 
 char otherSide (char side);
 
-enum enum_objectInfo { _player_, _block_, _bullet_, _undefined_};
+enum enum_objectInfo { _player_, _block_, _bullet_, _addon_, _undefined_};
 
 
 typedef enum_objectInfo objectInfo;
@@ -299,6 +299,48 @@ class bullet : public object
 
 };
 
-
+class addon : public fallingObject
+{
+		private:
+				double size;
+				bool gotCollected;
+		public:
+			
+			unsigned int addonType;
+		addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l), addonType (t),gotCollected (false)  {  updateBoundingBox();  hitpoints=3; };
+				virtual void plot() {
+						glColor3f(1, 1, 0);
+						glBegin(GL_QUADS);
+						glVertex2f(xpos - size / 2, ypos- size / 2);
+						glVertex2f(xpos + size / 2, ypos- size / 2);
+						glVertex2f(xpos + size / 2, ypos+ size / 2);
+						glVertex2f(xpos - size / 2, ypos+ size / 2);
+						glEnd();	
+				}
+				void updateBoundingBox ()
+				{
+						b.xmin = xpos - size / 2;
+						b.xmax = xpos + size / 2;
+						b.ymin = ypos - size / 2;
+						b.ymax = ypos + size / 2;
+				}			
+				virtual objectInfo getObjectInfo() { return _addon_;  }
+				virtual void collision (object *with, char fromWhere) {
+						if (fromWhere == fromDown)
+						{
+								yvel = 0;
+								ypos = (b.ymax - b.ymin)/2.0  + with->b.ymax;
+						}
+						if (with->getObjectInfo() == _player_)
+								gotCollected = true;
+				}
+				bool timerCallback (double dt)
+				{
+						ypos += yvel* dt;
+						yvel -= gravity*dt;
+						updateBoundingBox();
+					return !gotCollected;
+				}
+};
 
 #endif
