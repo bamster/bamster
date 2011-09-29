@@ -122,10 +122,10 @@ class game
 
 		void spawnHoleRow(){
 			int rowHole;
-			rowHole=rand()%17;
+			rowHole=rand()%16;
 			cout << "rowHole";
 			for (int i=1;i<21;i++){
-				if (i <=rowHole || i >= rowHole+3 )
+				if (i <=rowHole || i >= rowHole+4 )
 				otherObjects.push_back( new block (i*5, 80, 5,rand()%4));
 			}
 
