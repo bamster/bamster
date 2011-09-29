@@ -22,6 +22,7 @@ class game
 	private:
 		object * thePlayer;
 		list<object *> otherObjects;
+		unsigned int noBlockGeneration;
 	public:
 		static unsigned int score;
 		game ()
@@ -34,6 +35,7 @@ class game
 
 			otherObjects.push_back(new vwall (0,50,100));
 			otherObjects.push_back(new vwall (100,50,100));
+			noBlockGeneration = 0;
 			score = 0;
 		}
 
@@ -69,8 +71,19 @@ class game
 		void timerCallback()
 		{
 			object::gameTime += 1;
-			if (rand() % 100 > 98)
-				otherObjects.push_back( new block (rand() % 90+5, 80, 5,rand()%4));
+			if (noBlockGeneration <= 0){
+				if (rand() % 100000 > (99990-score)){
+					spawnHoleRow();	
+					noBlockGeneration = 600;
+				}
+				
+				else if (rand() % 1000 > 995-(score/10))
+					otherObjects.push_back( new block ((rand() % 18+1)*5, 80, 5,rand()%4));
+			}
+			else
+				noBlockGeneration--;
+
+
 
 			if (score == 20) {
 				otherObjects.push_back(new addon (rand() % 100, 80, 1, 1));
@@ -104,6 +117,18 @@ class game
 					GL_UNSIGNED_BYTE,
 					image->pixels);
 			return textureId;
+		}
+
+
+		void spawnHoleRow(){
+			int rowHole;
+			rowHole=rand()%17;
+			cout << "rowHole";
+			for (int i=1;i<21;i++){
+				if (i <=rowHole || i >= rowHole+3 )
+				otherObjects.push_back( new block (i*5, 80, 5,rand()%4));
+			}
+
 		}
 
 
