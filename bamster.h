@@ -25,6 +25,7 @@ class bamster : public fallingObject {
             
         enum {size = 3};
 	
+	objectInfo collisionObject;
         int waitingAnimationState;
         int saltoAnimationState;
 	bool isRunning;
@@ -82,18 +83,18 @@ class bamster : public fallingObject {
 
 		virtual void collision (object *with, char fromWhere)
         {
-
-            if (with->getObjectInfo() != _bullet_)
+		collisionObject = with->getObjectInfo();	
+            if ((collisionObject != _bullet_ )&&(collisionObject != _addon_))
             {
 
-            if (fromWhere == fromLeft)
-                xpos = (b.xmax - b.xmin) / 2.0 + with-> b.xmax;
-            if (fromWhere == fromRight)
-                xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
-            if (fromWhere == fromUp)
-                    hitpoints--;
-            else
-                fallingObject::collision(with,fromWhere);
+		    if (fromWhere == fromLeft)
+			xpos = (b.xmax - b.xmin) / 2.0 + with-> b.xmax;
+		    if (fromWhere == fromRight)
+			xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
+		    if (fromWhere == fromUp)
+			    hitpoints--;
+		    else
+			fallingObject::collision(with,fromWhere);
 
             }
 	    if (with->getObjectInfo() == _addon_)
