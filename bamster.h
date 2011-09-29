@@ -91,8 +91,10 @@ class bamster : public fallingObject {
 			xpos = (b.xmax - b.xmin) / 2.0 + with-> b.xmax;
 		    if (fromWhere == fromRight)
 			xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
-		    if (fromWhere == fromUp)
-			    hitpoints--;
+		    if (fromWhere == fromUp){
+			    if (hitpoints != 0)
+			    	hitpoints--;
+		    }
 		    else
 			fallingObject::collision(with,fromWhere);
 
