@@ -4,7 +4,7 @@
 
 game * activGame;
 
-
+unsigned int game::score=0;
 
 
 void game::handleCollisions()

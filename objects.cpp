@@ -1,8 +1,8 @@
 
 #include "objects.h"
+#include "game.h"
 
-
-
+block::~block() {game::score++;}; 
 double object::gameTime = 0;
 char otherSide (char side)
 {

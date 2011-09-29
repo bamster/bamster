@@ -228,6 +228,7 @@ class block: public fallingObject
 			b.ymax = ypos + size / 2;
 		}			
 		block (double x, double y, double l) : fallingObject (x,y), size ( l)  {  updateBoundingBox();  hitpoints=3; };
+		virtual ~block();
 		virtual void collision (object *with, char fromWhere) {
 			if (with->getObjectInfo() == _bullet_)
 			{

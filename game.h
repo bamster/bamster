@@ -23,8 +23,9 @@ class game
         object * thePlayer;
 	list<object *> otherObjects;
     public:
-	unsigned int score;
+	static unsigned int score;
         game ()
+	{
 	
 		srand (time(NULL));
 		otherObjects.push_back(new bamster( 20, 50));
@@ -77,7 +78,7 @@ class game
 				for (it = otherObjects.begin(); it != otherObjects.end(); it ++)
 					if  (!(*it)->timerCallback(0.1)){
 						it = otherObjects.erase (it);
-						score++;
+						//score++;
 					}
 					
 				handleCollisions();
