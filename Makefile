@@ -1,5 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -g
+
+CFLAGS = -Wall -g -pedantic
 PROG = bamster
 
 SRCS = imageloader.cpp bamster.cpp keyLogger.cpp  game.cpp main.cpp objects.cpp

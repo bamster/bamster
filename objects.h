@@ -304,18 +304,40 @@ class addon : public fallingObject
 		private:
 				double size;
 				bool gotCollected;
+				GLuint animation;
 		public:
 			
 			unsigned int addonType;
-		addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l), addonType (t),gotCollected (false)  {  updateBoundingBox();  hitpoints=3; };
+		addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l), addonType (t),gotCollected (false)  {  
+				updateBoundingBox();
+				hitpoints=3;
+		
+            Image* image = loadBMP("animations/jumpingShoes.bmp");
+            animation = loadTexture(image);
+			delete image;
+		
+		};
 				virtual void plot() {
-						glColor3f(1, 1, 0);
-						glBegin(GL_QUADS);
-						glVertex2f(xpos - size / 2, ypos- size / 2);
-						glVertex2f(xpos + size / 2, ypos- size / 2);
-						glVertex2f(xpos + size / 2, ypos+ size / 2);
-						glVertex2f(xpos - size / 2, ypos+ size / 2);
-						glEnd();	
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, animation);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glDisable(GL_NORMALIZE);
+            glColor3f(1, 1, 1);
+            glNormal3f(0, 1, 0);
+            glBegin(GL_QUADS);
+            //glColor3f(0.0f, 1.0f,0.0f);
+		glTexCoord2f(1,0);
+		glVertex2f(xpos -size, ypos - size);
+		glTexCoord2f(0,0);
+		glVertex2f(xpos + size, ypos - size); 
+		glTexCoord2f(0,1);
+		glVertex2f(xpos + size, ypos + size); 
+		glTexCoord2f(1,1);
+		glVertex2f(xpos - size, ypos + size);
+            glEnd();
+            glEnable(GL_NORMALIZE);
+            glDisable(GL_TEXTURE_2D);
 				}
 				void updateBoundingBox ()
 				{
