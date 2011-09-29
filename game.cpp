@@ -22,7 +22,7 @@ void game::handleCollisions()
 		jt = it;
 		for (jt++; jt != otherObjects.end(); jt++)
 		{
-			if (fromWhere = ((* it)->collidesWith (**jt)))
+			if ((fromWhere = ((* it)->collidesWith (**jt))))
 			{
 				(*it)-> collision(*jt, fromWhere);
 				(*jt)-> collision(*it, otherSide(fromWhere));
