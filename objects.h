@@ -40,6 +40,8 @@ enum enum_objectInfo { _player_, _block_, _bullet_, _addon_, _undefined_};
 
 typedef enum_objectInfo objectInfo;
 
+
+
 class object {
 		protected:
 		public:
@@ -213,8 +215,25 @@ class block: public fallingObject
 		private:
 				double size;
 		public:
+				int myBlockType;
 				virtual void plot() {
-						glColor3f(rand()%100*0.01, rand()%100*0.01, rand()%100*0.01);
+						switch (myBlockType) {
+							case 0:
+								glColor3f(1, 0, 0);
+								break;
+							case 1:
+								glColor3f(0, 1, 0);
+								break;
+							case 2:
+								glColor3f(0, 0, 1);
+								break;
+							case 3:
+								glColor3f(1, 1, 0);
+								break;
+							case 4:
+								glColor3f(0.8, 0.8, 0.8);
+								break;
+						}
 						glBegin(GL_QUADS);
 						glVertex2f(xpos - size / 2, ypos- size / 2);
 						glVertex2f(xpos + size / 2, ypos- size / 2);
@@ -229,7 +248,7 @@ class block: public fallingObject
 						b.ymin = ypos - size / 2;
 						b.ymax = ypos + size / 2;
 				}			
-				block (double x, double y, double l) : fallingObject (x,y), size ( l)  {  updateBoundingBox();  hitpoints=3; };
+				block (double x, double y, double l, int bT) : fallingObject (x,y), size ( l) ,myBlockType (bT) {  updateBoundingBox();  hitpoints=3; };
 				virtual ~block();
 				virtual void collision (object *with, char fromWhere) {
 						if (with->getObjectInfo() == _bullet_)

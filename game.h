@@ -70,7 +70,7 @@ class game
 		{
 			object::gameTime += 1;
 			if (rand() % 100 > 98)
-				otherObjects.push_back( new block (rand() % 100, 80, 5));
+				otherObjects.push_back( new block (rand() % 90+5, 80, 5,rand()%4));
 
 			if (score == 20) {
 				otherObjects.push_back(new addon (rand() % 100, 80, 1, 1));
