@@ -4,7 +4,6 @@
 
 game * activGame;
 
-unsigned int game::score=0;
 
 
 void game::handleCollisions()
@@ -37,8 +36,4 @@ void game::handleCollisions()
 
 
 
-void spawnObject (object *p)
-{ 
-	activGame->spawnObject(p);
-}
 

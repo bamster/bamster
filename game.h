@@ -22,10 +22,11 @@ class game
 	private:
 		object * thePlayer;
 		list<object *> otherObjects;
+	bool firstResize;
 		unsigned int noBlockGeneration;
 	public:
-		static unsigned int score;
-		game ()
+		unsigned int score;
+		game () : score (0)
 		{
 
 			srand (time(NULL));
@@ -37,6 +38,7 @@ class game
 			otherObjects.push_back(new vwall (100,50,100));
 			noBlockGeneration = 0;
 			score = 0;
+		firstResize=1;
 		}
 
 		void spawnObject(object *p) {
@@ -70,6 +72,11 @@ class game
 
 		void timerCallback()
 		{
+		if (firstResize) {
+			glutReshapeWindow(640,480);
+			firstResize=0;
+			printf("First Reshape");
+		}
 			object::gameTime += 1;
 			if (noBlockGeneration <= 0){
 				if (rand() % 100000 > (99990-score)){

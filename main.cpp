@@ -160,7 +160,7 @@ int main(int argc, char **argv) {
     myInit ( );
 
     theBamsterGame = new game();
-    activGame = theBamsterGame;
+    object::activGame = theBamsterGame;
 
     glutDisplayFunc (plot );
     glutTimerFunc ( 40,timerCallback,1 ) ;

@@ -1,4 +1,5 @@
 #include "bamster.h"
+#include "game.h"
 
 
 void bamster::updateBoundingBox()
@@ -36,13 +37,13 @@ bool bamster::timerCallback(double dt)
 		
 		if (facingLeft)
 		{
-			spawnObject(new bullet (-10.0,xpos, ypos));		
+			object::activGame->spawnObject(new bullet (-10.0,xpos, ypos));		
 	
 			xpos += 0.1;
 		}
 		else
 		{
-			spawnObject(new bullet (3.0,xpos, ypos));		
+			object::activGame->spawnObject(new bullet (3.0,xpos, ypos));		
 			xpos -= 0.1;
 		}
 			timeLastFiring = object::gameTime;
