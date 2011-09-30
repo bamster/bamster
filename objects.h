@@ -69,6 +69,7 @@ class object {
 		virtual void plot();
 		virtual bool timerCallback(double dt);
 		virtual void collision(object *with, char fromWhere);
+		virtual ~object();
 };
 
 class fallingObject : public object

@@ -144,6 +144,7 @@ char object::collidesWith (object &o)  // return 0 for no, 1 for horizontal, 2 f
 	return 0;
 }
 
+object::~object() {};
 void object::plot() { cout << "plot of object called" << endl; }
 bool object::timerCallback (double dt) {return true;}
 void object::collision (object *with, char fromWhere) { }
