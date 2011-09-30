@@ -20,6 +20,9 @@ class bamster : public fallingObject {
 	// see Bjarne Stroustrup's C++ Style and Technique FAQ
 	// http://www2.research.att.com/~bs/bs_faq2.html#in-class
         float jumpPower;
+
+
+
         enum  { xvel = 2 };
         enum {cadenz = 40};
             

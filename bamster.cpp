@@ -16,14 +16,14 @@ bool bamster::timerCallback(double dt)
         {
 	isRunning = false;
             if (pressedKeys.leftKey == true) {
-                timeLastMoving = object::gameTime;
+                timeLastMoving = object::activGame->gameTime;
                 xpos-= xvel * dt;
 		facingLeft = true;
 		isRunning = true;
 		}
 
             if (pressedKeys.rightKey == true) {
-                timeLastMoving = object::gameTime;
+                timeLastMoving = object::activGame->gameTime;
                 xpos+= xvel * dt;
 		facingLeft = false;
 		isRunning = true;
@@ -31,7 +31,7 @@ bool bamster::timerCallback(double dt)
 
 	if ((pressedKeys.downKey == true) || (pressedKeys.spaceKey == true)) {  // firing
 		
-		if ((object::gameTime - timeLastFiring) > cadenz)
+		if ((object::activGame->gameTime - timeLastFiring) > cadenz)
 		{
 
 		
@@ -46,7 +46,7 @@ bool bamster::timerCallback(double dt)
 			object::activGame->spawnObject(new bullet (3.0,xpos, ypos));		
 			xpos -= 0.1;
 		}
-			timeLastFiring = object::gameTime;
+			timeLastFiring = object::activGame->gameTime;
 
 		}	
 
@@ -55,7 +55,7 @@ bool bamster::timerCallback(double dt)
 
 
             if ((pressedKeys.upKey == true) && yvel == 0) {  // start jumping
-                timeLastMoving = object::gameTime;
+                timeLastMoving = object::activGame->gameTime;
                     yvel += jumpPower;
 				}
             if (yvel > 0)

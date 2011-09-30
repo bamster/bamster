@@ -8,10 +8,62 @@
 
 game * object::activGame;
 
+
+				void addon::collision (object *with, char fromWhere) {
+						if (fromWhere == fromDown)
+						{
+								yvel = 0;
+								ypos = (b.ymax - b.ymin)/2.0  + with->b.ymax;
+						}
+						if (with->getObjectInfo() == _player_)
+								gotCollected = true;
+				}
+				bool addon::timerCallback (double dt)
+				{
+						ypos += yvel* dt;
+						yvel -= gravity*dt;
+						updateBoundingBox();
+					return !gotCollected;
+				}
+
+				void addon::updateBoundingBox ()
+				{
+						b.xmin = xpos - size / 2;
+						b.xmax = xpos + size / 2;
+						b.ymin = ypos - size / 2;
+						b.ymax = ypos + size / 2;
+				}			
+
+
+
+				void addon::plot() {
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, animation);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glDisable(GL_NORMALIZE);
+            glColor3f(1, 1, 1);
+            glNormal3f(0, 1, 0);
+            glBegin(GL_QUADS);
+            //glColor3f(0.0f, 1.0f,0.0f);
+		glTexCoord2f(1,0);
+		glVertex2f(xpos -size, ypos - size);
+		glTexCoord2f(0,0);
+		glVertex2f(xpos + size, ypos - size); 
+		glTexCoord2f(0,1);
+		glVertex2f(xpos + size, ypos + size); 
+		glTexCoord2f(1,1);
+		glVertex2f(xpos - size, ypos + size);
+            glEnd();
+            glEnable(GL_NORMALIZE);
+            glDisable(GL_TEXTURE_2D);
+				}
+
+
+
 block::~block() {
-	object::activGame::score++;
+	object::activGame->score++;
 }; 
-double object::gameTime = 0;
 char otherSide (char side)
 {
 	if (side == fromLeft)
@@ -23,6 +75,15 @@ char otherSide (char side)
 	
 	return fromUp;
 }
+addon::addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l), addonType (t),gotCollected (false)  {  
+			updateBoundingBox();
+			hitpoints=3;
+
+			Image* image = loadBMP("animations/jumpingShoes.bmp");
+			animation = loadTexture(image);
+			delete image;
+
+		};
 
 //object-class implementation
 void object::stopMeFalling(double height)

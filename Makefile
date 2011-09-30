@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -Wall -g -pedantic
+CFLAGS = -Wall -g -pedantic -ansi
 PROG = bamster
 
 SRCS = imageloader.cpp bamster.cpp keyLogger.cpp  game.cpp main.cpp objects.cpp
@@ -27,7 +27,7 @@ dependencies: $(SRCS)
 all: $(PROG)
 
 %.o :: %.cpp
-	$(CC) $*.cpp -g -c
+	$(CC) $*.cpp -g -c $(CFLAGS)
 
 
 

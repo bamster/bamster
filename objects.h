@@ -18,10 +18,10 @@ using namespace std;
 
 struct boundingBox
 {
-		double xmin;
-		double xmax;
-		double ymin;
-		double ymax;
+	double xmin;
+	double xmax;
+	double ymin;
+	double ymax;
 };
 
 
@@ -51,14 +51,16 @@ typedef enum_objectInfo objectInfo;
 class game;
 
 class object {
-		protected:
-		public:
-				static game * activGame;
-				static double gameTime;
-				double xpos, ypos;
-				boundingBox b;
+	protected:
+	public:
+		//! Pointer to the running game, allowing objects to spawnobjects or change the score.
+		static game * activGame;
+
+
+		double xpos, ypos;
+		boundingBox b;
 		virtual void stopMeFalling(double height);
-				int hitpoints;
+		int hitpoints;
 		object (double x, double y); 
 		virtual objectInfo getObjectInfo();
 		virtual void updateBoundingBox();
@@ -71,11 +73,11 @@ class object {
 
 class fallingObject : public object
 {
-		private:
+	private:
 	public:
-				float yvel;
-				double gravity;
-				unsigned int hitpoints;
+		float yvel;
+		double gravity;
+		unsigned int hitpoints;
 		fallingObject (double x, double y);
 		virtual void stopMeFalling (double height);
 		virtual void collision (object *with, char fromWhere);
@@ -87,36 +89,36 @@ class fallingObject : public object
 
 class vwall : public object
 {
-		private:
-				double length;
-		public:
+	private:
+		double length;
+	public:
 		virtual void plot();
 		void updateBoundingBox ();
-		vwall (double x, double y, double l);
+		vwall (double x, double y, double length);
 };
 
 class hwall : public object
 {
-		private:
-				double length;
-		public:
+	private:
+		double length;
+	public:
 		virtual void plot();
 		void updateBoundingBox ();
-		hwall (double x, double y, double l);
+		hwall (double x, double y, double length);
 };
 
 class block: public fallingObject
 {
-		private:
-				double size;
+	private:
+		double size;
 		double red;
 		double green; 
 		double blue;
-		public:
+	public:
 		virtual void plot();
 		void updateBoundingBox ();
-		block (double x, double y, double l, unsigned int color);
-				virtual ~block();
+		block (double x, double y, double length, unsigned int color);
+		virtual ~block();
 		virtual void collision (object *with, char fromWhere);
 		virtual bool timerCallback(double dt);
 };
@@ -124,10 +126,10 @@ class block: public fallingObject
 
 class bullet : public object
 {
-		private:
-				double speed;
-				bool hitSomething;
-		public:
+	private:
+		double speed;
+		bool hitSomething;
+	public:
 		bullet (double s, double x, double y);
 		void plot ();
 		virtual objectInfo getObjectInfo();
@@ -138,68 +140,19 @@ class bullet : public object
 
 class addon : public fallingObject
 {
-		private:
-				double size;
-				bool gotCollected;
-				GLuint animation;
-		public:
-			
-			unsigned int addonType;
-		addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l), addonType (t),gotCollected (false)  {  
-				updateBoundingBox();
-				hitpoints=3;
-		
-            Image* image = loadBMP("animations/jumpingShoes.bmp");
-            animation = loadTexture(image);
-			delete image;
-		
-		};
-				virtual void plot() {
-            glEnable(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, animation);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glDisable(GL_NORMALIZE);
-            glColor3f(1, 1, 1);
-            glNormal3f(0, 1, 0);
-            glBegin(GL_QUADS);
-            //glColor3f(0.0f, 1.0f,0.0f);
-		glTexCoord2f(1,0);
-		glVertex2f(xpos -size, ypos - size);
-		glTexCoord2f(0,0);
-		glVertex2f(xpos + size, ypos - size); 
-		glTexCoord2f(0,1);
-		glVertex2f(xpos + size, ypos + size); 
-		glTexCoord2f(1,1);
-		glVertex2f(xpos - size, ypos + size);
-            glEnd();
-            glEnable(GL_NORMALIZE);
-            glDisable(GL_TEXTURE_2D);
-				}
-				void updateBoundingBox ()
-				{
-						b.xmin = xpos - size / 2;
-						b.xmax = xpos + size / 2;
-						b.ymin = ypos - size / 2;
-						b.ymax = ypos + size / 2;
-				}			
-				virtual objectInfo getObjectInfo() { return _addon_;  }
-				virtual void collision (object *with, char fromWhere) {
-						if (fromWhere == fromDown)
-						{
-								yvel = 0;
-								ypos = (b.ymax - b.ymin)/2.0  + with->b.ymax;
-						}
-						if (with->getObjectInfo() == _player_)
-								gotCollected = true;
-				}
-				bool timerCallback (double dt)
-				{
-						ypos += yvel* dt;
-						yvel -= gravity*dt;
-						updateBoundingBox();
-					return !gotCollected;
-				}
+	private:
+		double size;
+		bool gotCollected;
+		GLuint animation;
+	public:
+
+		unsigned int addonType;
+		addon (double x, double y, double length, int t);
+		virtual void plot() ;
+		void updateBoundingBox();
+		virtual objectInfo getObjectInfo() { return _addon_;  }
+		virtual void collision (object *with, char fromWhere) ;
+		bool timerCallback (double dt);
 };
 
 #endif
