@@ -124,7 +124,6 @@ void game::handleCollisions()
 
 	list<object*>::iterator it, jt, next;
 
-	unsigned int counteri, counterj;
 	char fromWhere;
 
 

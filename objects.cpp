@@ -63,7 +63,7 @@ game * object::activGame;
 
 block::~block() {
 	object::activGame->score++;
-}; 
+}
 char otherSide (char side)
 {
 	if (side == fromLeft)
@@ -75,7 +75,7 @@ char otherSide (char side)
 	
 	return fromUp;
 }
-addon::addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l), addonType (t),gotCollected (false)  {  
+addon::addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l),gotCollected (false), addonType (t) {  
 			updateBoundingBox();
 			hitpoints=3;
 
@@ -83,7 +83,7 @@ addon::addon (double x, double y, double l, int t) : fallingObject (x,y), size (
 			animation = loadTexture(image);
 			delete image;
 
-		};
+		}
 
 //object-class implementation
 void object::stopMeFalling(double height)
@@ -91,7 +91,7 @@ void object::stopMeFalling(double height)
 	//yy	 ypos = ypos - b.ymin  + height;
 	ypos = (b.ymax - b.ymin)/2.0  + height;
 }
-object::object (double x, double y) : xpos (x), ypos(y) {}
+object::object (double x, double y) : xpos (x), ypos(y), xvel(0), yvel(0) {}
 
 objectInfo object::getObjectInfo() { 
 	return _undefined_;  
@@ -153,7 +153,6 @@ fallingObject::fallingObject (double x, double y) : object (x,y), gravity(0.1) {
 
 void fallingObject::stopMeFalling (double height)
 {
-	cout << "autsch" << endl;
 	yvel = 0;
 	object::stopMeFalling (height);
 }
@@ -197,7 +196,7 @@ void vwall::updateBoundingBox ()
 	b.ymin = ypos - length / 2;
 	b.ymax = ypos + length / 2;
 }			
-vwall::vwall (double x, double y, double l) : object (x,y), length ( l) { updateBoundingBox(); };
+vwall::vwall (double x, double y, double l) : object (x,y), length ( l) { updateBoundingBox(); }
 
 //hwall-implementation
 //
@@ -214,7 +213,7 @@ void hwall::updateBoundingBox ()
 	b.xmin = xpos - length / 2;
 	b.xmax = xpos + length / 2;
 }			
-hwall::hwall (double x, double y, double l) : object (x,y), length ( l) { updateBoundingBox(); };
+hwall::hwall (double x, double y, double l) : object (x,y), length ( l) { updateBoundingBox(); }
 
 //Implementation of block-methods
 block::block (double x, double y, double l, unsigned int color_idx) : fallingObject (x,y), size ( l)  {  
@@ -223,7 +222,7 @@ block::block (double x, double y, double l, unsigned int color_idx) : fallingObj
 	green = colors[color_idx][1];	
 	blue = colors[color_idx][2];	
 	hitpoints=3; 
-};
+}
 
 
 

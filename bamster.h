@@ -19,7 +19,6 @@ class bamster : public fallingObject {
 	// only static const INTs maybe in-class constants
 	// see Bjarne Stroustrup's C++ Style and Technique FAQ
 	// http://www2.research.att.com/~bs/bs_faq2.html#in-class
-        float jumpPower;
 
 
 
@@ -33,19 +32,18 @@ class bamster : public fallingObject {
         int saltoAnimationState;
 	bool isRunning;
 
-        bool facingLeft;
         GLuint bamsterRun[7];
         GLuint bamsterWait[4];
         GLuint bamsterJump[8];
 	unsigned int addonType;
     public:
-        bool isJumping;
+        bool facingLeft;
         double timeLastFiring;
         double timeLastMoving;
-        unsigned int framesJumping;
+        float jumpPower;
 
 
-        bamster (double x, double y) : fallingObject(x,y),    framesJumping ( 0), facingLeft (true), timeLastFiring (0.0), jumpPower (5.0)
+        bamster (double x, double y) : fallingObject(x,y),    facingLeft (true), timeLastFiring (0.0), timeLastMoving (0.0), jumpPower (5.0)
         {
             Image* image = loadBMP("animations/bamster_wait_r0.bmp");
             bamsterWait[0] = loadTexture(image);

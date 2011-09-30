@@ -58,6 +58,8 @@ class object {
 
 
 		double xpos, ypos;
+		double xvel, yvel;
+
 		boundingBox b;
 		virtual void stopMeFalling(double height);
 		int hitpoints;
@@ -75,7 +77,6 @@ class fallingObject : public object
 {
 	private:
 	public:
-		float yvel;
 		double gravity;
 		unsigned int hitpoints;
 		fallingObject (double x, double y);
@@ -145,8 +146,8 @@ class addon : public fallingObject
 		bool gotCollected;
 		GLuint animation;
 	public:
-
 		unsigned int addonType;
+
 		addon (double x, double y, double length, int t);
 		virtual void plot() ;
 		void updateBoundingBox();
