@@ -42,12 +42,12 @@ game * activGame;
 		}
 			object::activGame->gameTime += 1;
 			if (noBlockGeneration <= 0){
-				if (rand() % 100000 > (99990-score)){
+				if (rand() % 100000 > (int) (99990-score)){
 					spawnHoleRow();	
 					noBlockGeneration = 600;
 				}
 				
-				else if (rand() % 1000 > 995-(score/10))
+				else if (rand() % 1000 >(int) 995-(score/10))
 					otherObjects.push_back( new block ((rand() % 18+1)*5, 80, 5,rand()%4));
 			}
 			else

@@ -42,7 +42,7 @@ const static double colors[5][3] = {
 
 char otherSide (char side);
 
-enum enum_objectInfo { _player_, _block_, _bullet_, _addon_, _undefined_};
+enum enum_objectInfo { _player_ , _explosion_, _block_, _bullet_, _addon_, _undefined_};
 
 
 typedef enum_objectInfo objectInfo;
@@ -59,7 +59,8 @@ class object {
 
 		double xpos, ypos;
 		double xvel, yvel;
-
+		
+		virtual ~object() {}
 		boundingBox b;
 		virtual void stopMeFalling(double height);
 		int hitpoints;
@@ -78,7 +79,6 @@ class fallingObject : public object
 	private:
 	public:
 		double gravity;
-		unsigned int hitpoints;
 		fallingObject (double x, double y);
 		virtual void stopMeFalling (double height);
 		virtual void collision (object *with, char fromWhere);
@@ -111,6 +111,7 @@ class hwall : public object
 class block: public fallingObject
 {
 	private:
+		int color;
 		double size;
 		double red;
 		double green; 
@@ -118,18 +119,35 @@ class block: public fallingObject
 	public:
 		virtual void plot();
 		void updateBoundingBox ();
-		block (double x, double y, double length, unsigned int color);
+		block (double x, double y, double length, int color);
 		virtual ~block();
 		virtual void collision (object *with, char fromWhere);
 		virtual bool timerCallback(double dt);
 };
 
 
+class coloredExplosion : public object
+{
+
+	private:
+		double size;
+	public:
+		int color;
+		virtual void plot ();
+		coloredExplosion(double x, double y, double s, int color);
+		void updateBoundingBox();
+		virtual objectInfo getObjectInfo() { return _explosion_; }
+		bool timerCallback (double dt);
+
+};
+
+
+
 class bullet : public object
 {
 	private:
-		double speed;
 		bool hitSomething;
+		double speed;
 	public:
 		bullet (double s, double x, double y);
 		void plot ();

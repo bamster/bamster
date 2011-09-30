@@ -61,8 +61,24 @@ game * object::activGame;
 
 
 
+
+coloredExplosion::coloredExplosion(double x, double y, double s, int c) : object (x,y), size(s), color (c) {
+	updateBoundingBox();
+	hitpoints = 2;
+}
+
+bool coloredExplosion::timerCallback (double dt)
+{
+	hitpoints--;
+	return object::timerCallback (dt);
+}
+
+
+
+
 block::~block() {
 	object::activGame->score++;
+	object::activGame->spawnObject (new coloredExplosion ( xpos, ypos, size + 0.001, color));
 }
 char otherSide (char side)
 {
@@ -91,7 +107,9 @@ void object::stopMeFalling(double height)
 	//yy	 ypos = ypos - b.ymin  + height;
 	ypos = (b.ymax - b.ymin)/2.0  + height;
 }
-object::object (double x, double y) : xpos (x), ypos(y), xvel(0), yvel(0) {}
+object::object (double x, double y) : xpos (x), ypos(y), xvel(0), yvel(0) {
+	hitpoints = 1;
+}
 
 objectInfo object::getObjectInfo() { 
 	return _undefined_;  
@@ -119,7 +137,7 @@ GLuint object::loadTexture(Image *image) {
 }
 
 
-char object::collidesWith (object &o)  // return 0 for no, 1 for horizontal, 2 for vertical collision
+char object::collidesWith (object &o)  
 {
 	double distLeft = b.xmin - o.b.xmax;
 	double distRight = o.b.xmin - b.xmax;
@@ -145,7 +163,13 @@ char object::collidesWith (object &o)  // return 0 for no, 1 for horizontal, 2 f
 }
 
 void object::plot() { cout << "plot of object called" << endl; }
-bool object::timerCallback (double dt) {return true;}
+bool object::timerCallback (double dt) {
+	if (hitpoints <= 0)
+		return 0;
+	else 
+		return 1;
+	return true;
+}
 void object::collision (object *with, char fromWhere) { }
 
 //fallingObject implementations
@@ -174,11 +198,7 @@ bool fallingObject::timerCallback(double dt)
 	ypos += yvel* dt;
 	yvel -= gravity*dt;
 	updateBoundingBox();
-	if (hitpoints == 0)
-		return 0;
-	else 
-		return 1;
-	return true;
+	return object::timerCallback (dt);
 }
 
 //vwall-implementation
@@ -216,16 +236,26 @@ void hwall::updateBoundingBox ()
 hwall::hwall (double x, double y, double l) : object (x,y), length ( l) { updateBoundingBox(); }
 
 //Implementation of block-methods
-block::block (double x, double y, double l, unsigned int color_idx) : fallingObject (x,y), size ( l)  {  
+block::block (double x, double y, double l, int color_idx) : fallingObject (x,y), size ( l)  {  
 	updateBoundingBox(); 
 	red = colors[color_idx][0];
 	green = colors[color_idx][1];	
-	blue = colors[color_idx][2];	
+	blue = colors[color_idx][2];
+	color = color_idx;	
 	hitpoints=3; 
 }
 
 
 
+void coloredExplosion::plot() {
+	glColor3f(0,1.0,0.5);
+	glBegin(GL_QUADS);
+	glVertex2f(xpos - size / 2, ypos- size / 2);
+	glVertex2f(xpos + size / 2, ypos- size / 2);
+	glVertex2f(xpos + size / 2, ypos+ size / 2);
+	glVertex2f(xpos - size / 2, ypos+ size / 2);
+	glEnd();	
+}
 
 void block::plot() {
 	glColor3f(red,green,blue);
@@ -244,15 +274,33 @@ void block::updateBoundingBox () {
 	b.ymax = ypos + size / 2;
 }			
 
+
+void coloredExplosion::updateBoundingBox () {
+	b.xmin = xpos - size / 2;
+	b.xmax = xpos + size / 2;
+	b.ymin = ypos - size / 2;
+	b.ymax = ypos + size / 2;
+}			
+
 void block::collision (object *with, char fromWhere) {
-	if (with->getObjectInfo() == _bullet_) {
-//		_		if (fromWhere== fromLeft || fromWhere == fromRight)
-//				{
+	if (with->getObjectInfo() == _bullet_ ){
+			
 		hitpoints = hitpoints -1;
-//				}
 	}
-	fallingObject::collision(with,fromWhere);
+	if  (with->getObjectInfo () == _explosion_)
+	{
+		if ( ((coloredExplosion *)with) -> color == color)
+		{
+			hitpoints = hitpoints - 10;
+		}
+	}
+	else
+	{
+		fallingObject::collision(with,fromWhere);
+	}
 }
+
+
 
 
 bool block::timerCallback(double dt)
