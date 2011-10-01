@@ -1,9 +1,41 @@
 #include "bamster.h"
 #include "game.h"
 
-double schneeSchieber::fireLeft(double xpos, double ypos)
+double schneeSchieber::fireLeft(double xpos, double ypos,double hamsterspeed)
 {
-	if (object::activGame->gameTime - timeLastFiring > kadenz)
+	if (object::activGame->gameTime - timeLastFiring > kadenz / hamsterspeed)
+	{
+
+		timeLastFiring = object::activGame->gameTime;
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos - 2.0));
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos - 1.0));
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos));
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos));
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos + 1.0));
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos + 2.0));
+		return 0.1;
+	}
+	return 0.0;
+}
+
+
+double schneeSchieber::fireRight(double xpos, double ypos, double hamsterspeed)
+{
+	if (object::activGame->gameTime - timeLastFiring > kadenz / hamsterspeed)
+	{
+		timeLastFiring = object::activGame->gameTime;
+		object::activGame->spawnObject(new bullet (3.0,xpos, ypos - 1.0));
+		object::activGame->spawnObject(new bullet (3.0,xpos, ypos));
+		object::activGame->spawnObject(new bullet (3.0,xpos, ypos + 1.0));
+		return -0.1;
+	}
+	return 0.0;
+}
+
+
+double tripelLaser::fireLeft(double xpos, double ypos, double hamsterspeed)
+{
+	if (object::activGame->gameTime - timeLastFiring > kadenz / hamsterspeed)
 	{
 
 		timeLastFiring = object::activGame->gameTime;
@@ -16,38 +48,9 @@ double schneeSchieber::fireLeft(double xpos, double ypos)
 }
 
 
-double schneeSchieber::fireRight(double xpos, double ypos)
+double tripelLaser::fireRight(double xpos, double ypos, double hamsterspeed)
 {
-	if (object::activGame->gameTime - timeLastFiring > kadenz)
-	{
-		timeLastFiring = object::activGame->gameTime;
-		object::activGame->spawnObject(new bullet (3.0,xpos, ypos - 1.0));
-		object::activGame->spawnObject(new bullet (3.0,xpos, ypos));
-		object::activGame->spawnObject(new bullet (3.0,xpos, ypos + 1.0));
-		return -0.1;
-	}
-	return 0.0;
-}
-
-
-double tripelLaser::fireLeft(double xpos, double ypos)
-{
-	if (object::activGame->gameTime - timeLastFiring > kadenz)
-	{
-
-		timeLastFiring = object::activGame->gameTime;
-		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos - 1.0));
-		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos));
-		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos + 1.0));
-		return 0.1;
-	}
-	return 0.0;
-}
-
-
-double tripelLaser::fireRight(double xpos, double ypos)
-{
-	if (object::activGame->gameTime - timeLastFiring > kadenz)
+	if (object::activGame->gameTime - timeLastFiring > kadenz/ hamsterspeed)
 	{
 		timeLastFiring = object::activGame->gameTime;
 		object::activGame->spawnObject(new bullet (3.0,xpos, ypos - 1.0));
@@ -60,9 +63,9 @@ double tripelLaser::fireRight(double xpos, double ypos)
 
 
 
-double laser::fireLeft(double xpos, double ypos)
+double laser::fireLeft(double xpos, double ypos, double hamsterspeed)
 {
-	if (object::activGame->gameTime - timeLastFiring > kadenz)
+	if (object::activGame->gameTime - timeLastFiring > kadenz/ hamsterspeed)
 	{
 
 		timeLastFiring = object::activGame->gameTime;
@@ -73,9 +76,9 @@ double laser::fireLeft(double xpos, double ypos)
 }
 
 
-double laser::fireRight(double xpos, double ypos)
+double laser::fireRight(double xpos, double ypos, double hamsterspeed)
 {
-	if (object::activGame->gameTime - timeLastFiring > kadenz)
+	if (object::activGame->gameTime - timeLastFiring > kadenz/ hamsterspeed)
 	{
 		timeLastFiring = object::activGame->gameTime;
 		object::activGame->spawnObject(new bullet (3.0,xpos, ypos));
@@ -131,9 +134,9 @@ bool bamster::timerCallback(double dt)
 
 
 			if (facingLeft)
-				xpos += weapons[activeWeapon]->fireLeft(xpos, ypos);	
+				xpos += weapons[activeWeapon]->fireLeft(xpos, ypos, size / 2.0);	
 			else
-				xpos += weapons[activeWeapon]->fireRight(xpos, ypos);
+				xpos += weapons[activeWeapon]->fireRight(xpos, ypos, size / 2.0);
 
 		}	
 
@@ -158,7 +161,7 @@ bool bamster::timerCallback(double dt)
 
 
 
-bamster::bamster (double x, double y) : fallingObject(x,y),    facingLeft (true), timeLastFiring (0.0), timeLastMoving (0.0), jumpPower (5.0), xvel (2.0)
+bamster::bamster (double x, double y) : fallingObject(x,y),    facingLeft (true), timeLastFiring (0.0), timeLastMoving (0.0), jumpPower (5.0), xvel (2.0), size (1.5)
 {
 	Image* image = loadBMP("animations/bamster_wait_r0.bmp");
 	bamsterWait[0] = loadTexture(image);

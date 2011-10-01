@@ -17,8 +17,8 @@ class weapon
 		double timeLastFiring;
 	public:
 		weapon () : timeLastFiring (0) {}
-		virtual double fireLeft (double xpos, double ypos) = 0;
-		virtual double fireRight (double xpos, double ypos) = 0;
+		virtual double fireLeft (double xpos, double ypos, double hamsterSpeed) = 0;
+		virtual double fireRight (double xpos, double ypos, double hamsterSpeed) = 0;
 
 
 };
@@ -28,8 +28,8 @@ class laser : public weapon
 {
 	double kadenz;
 	public:
-	virtual double fireLeft (double xpos, double ypos);
-	virtual double fireRight (double xpos, double ypos);
+	virtual double fireLeft (double xpos, double ypos, double hamsterSpeed);
+	virtual double fireRight (double xpos, double ypos, double hamsterSpeed);
 
 	laser () : kadenz (50) {}
 
@@ -40,8 +40,8 @@ class tripelLaser : public weapon
 {
 	double kadenz;
 	public:
-	virtual double fireLeft (double xpos, double ypos);
-	virtual double fireRight (double xpos, double ypos);
+	virtual double fireLeft (double xpos, double ypos, double hamsterSpeed);
+	virtual double fireRight (double xpos, double ypos, double hamsterSpeed);
 
 	tripelLaser () : kadenz (90) {}
 };
@@ -51,10 +51,10 @@ class schneeSchieber : public weapon
 {
 	double kadenz;
 	public:
-	virtual double fireLeft (double xpos, double ypos);
-	virtual double fireRight (double xpos, double ypos);
+	virtual double fireLeft (double xpos, double ypos, double hamsterSpeed);
+	virtual double fireRight (double xpos, double ypos, double hamsterSpeed);
 
-	schneeSchieber () : kadenz (20) {}
+	schneeSchieber () : kadenz (110) {}
 };
 
 
@@ -71,8 +71,7 @@ class bamster : public fallingObject {
 
 		double xvel;
 		enum {cadenz = 40};
-
-		enum {size = 2};
+		double size;
 
 		objectInfo collisionObject;
 		int waitingAnimationState;
@@ -109,7 +108,9 @@ class bamster : public fallingObject {
 					xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
 				if (fromWhere == fromUp){
 					if (with->yvel < -2.0)
-					if (hitpoints != 0)
+						if (size > 1.5)
+							size--;
+						else if (hitpoints != 0)
 						hitpoints--;
 				}
 				else
@@ -139,8 +140,26 @@ class bamster : public fallingObject {
 						xvel = 2.7;
 						break;
 					case 5:
+						jumpPower = 7.0;
+						xvel = 3.0;
+						break;
+					case 6:
+						jumpPower = 6.0;
+						xvel = 3.2;
+						break;
+					case 7:
+						jumpPower = 9.0;
+						xvel = 3.5;
+						break;
+
+
+
+					case 10:
 						weapons.push_back ( new schneeSchieber ());
 						activeWeapon = weapons.size() -1 ;
+						break;
+					case 99:
+						size += 0.1;
 						break;
 				}
 			}

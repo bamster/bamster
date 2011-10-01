@@ -170,6 +170,8 @@ class bullet : public object
 		bool timerCallback (double dt);
 };
 
+
+
 class addon : public fallingObject
 {
 	private:
@@ -185,6 +187,12 @@ class addon : public fallingObject
 		virtual objectInfo getObjectInfo() { return _addon_;  }
 		virtual void collision (object *with, char fromWhere) ;
 		bool timerCallback (double dt);
+};
+
+class erdnuss : public addon
+{
+	public:
+		erdnuss (double x, double y, double length) : addon (x,y,length, 99) {}
 };
 
 #endif
