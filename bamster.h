@@ -4,115 +4,151 @@
 #include "keyLogger.h"
 
 #include <iostream>
-
+#include <vector>
 #include <GL/glut.h>
 #include "objects.h"
 
 using namespace std;
 
 
+class weapon
+{
+	protected:
+		double timeLastFiring;
+	public:
+		weapon () : timeLastFiring (0) {}
+		virtual double fireLeft (double xpos, double ypos) = 0;
+		virtual double fireRight (double xpos, double ypos) = 0;
+
+
+};
+
+
+class laser : public weapon
+{
+	double kadenz;
+	public:
+	virtual double fireLeft (double xpos, double ypos);
+	virtual double fireRight (double xpos, double ypos);
+
+	laser () : kadenz (50) {}
+
+
+};
+
+class tripelLaser : public weapon
+{
+	double kadenz;
+	public:
+	virtual double fireLeft (double xpos, double ypos);
+	virtual double fireRight (double xpos, double ypos);
+
+	tripelLaser () : kadenz (90) {}
+};
+
+
+class schneeSchieber : public weapon
+{
+	double kadenz;
+	public:
+	virtual double fireLeft (double xpos, double ypos);
+	virtual double fireRight (double xpos, double ypos);
+
+	schneeSchieber () : kadenz (20) {}
+};
 
 
 class bamster : public fallingObject {
-    private:
-        // Velocity in y-direction when bamster starts jumping
-	// only static const INTs maybe in-class constants
-	// see Bjarne Stroustrup's C++ Style and Technique FAQ
-	// http://www2.research.att.com/~bs/bs_faq2.html#in-class
+	private:
+		// Velocity in y-direction when bamster starts jumping
+		// only static const INTs maybe in-class constants
+		// see Bjarne Stroustrup's C++ Style and Technique FAQ
+		// http://www2.research.att.com/~bs/bs_faq2.html#in-class
 
 
+		vector <weapon *> weapons;
+		unsigned int activeWeapon;
 
-        enum  { xvel = 2 };
-        enum {cadenz = 40};
-            
-        enum {size = 3};
-	
-	objectInfo collisionObject;
-        int waitingAnimationState;
-        int saltoAnimationState;
-	bool isRunning;
+		double xvel;
+		enum {cadenz = 40};
 
-        GLuint bamsterRun[7];
-        GLuint bamsterWait[4];
-        GLuint bamsterJump[8];
-	unsigned int addonType;
-    public:
-        bool facingLeft;
-        double timeLastFiring;
-        double timeLastMoving;
-        float jumpPower;
+		enum {size = 2};
+
+		objectInfo collisionObject;
+		int waitingAnimationState;
+		int saltoAnimationState;
+		bool isRunning;
+
+		GLuint bamsterRun[7];
+		GLuint bamsterWait[4];
+		GLuint bamsterJump[8];
+		unsigned int addonType;
+	public:
+		bool facingLeft;
+		double timeLastFiring;
+		double timeLastMoving;
+		float jumpPower;
+
+		bamster (double x, double y);
 
 
-        bamster (double x, double y) : fallingObject(x,y),    facingLeft (true), timeLastFiring (0.0), timeLastMoving (0.0), jumpPower (5.0)
-        {
-            Image* image = loadBMP("animations/bamster_wait_r0.bmp");
-            bamsterWait[0] = loadTexture(image);
-            image = loadBMP("animations/bamster_wait_r1.bmp");
-            bamsterWait[1] = loadTexture(image);
-            image = loadBMP("animations/bamster_wait_r2.bmp");
-            bamsterWait[2] = loadTexture(image);
-            image = loadBMP("animations/bamster_wait_r3.bmp");
-            bamsterWait[3] = loadTexture(image);
-            image = loadBMP("animations/bamster_run_r0.bmp");
-
-            bamsterRun[0] = loadTexture(image);
-            image = loadBMP("animations/bamster_run_r0.bmp");
-            bamsterRun[1] = loadTexture(image);
-            image = loadBMP("animations/bamster_run_r1.bmp");
-            bamsterRun[2] = loadTexture(image);
-            image = loadBMP("animations/bamster_run_r2.bmp");
-            bamsterRun[3] = loadTexture(image);
-            image = loadBMP("animations/bamster_run_r3.bmp");
-            bamsterRun[4] = loadTexture(image);
-            image = loadBMP("animations/bamster_run_r4.bmp");
-            bamsterRun[5] = loadTexture(image);
-            image = loadBMP("animations/bamster_run_r5.bmp");
-            bamsterRun[6] = loadTexture(image);
-            image = loadBMP("animations/bamster_run_r6.bmp");
-
-            delete image;
-            hitpoints=1;
-            gravity=1.0;
-	    waitingAnimationState=0;
-	    
-        }
-        
-        void updateBoundingBox(); 
-        virtual void plot ();
+		void updateBoundingBox(); 
+		virtual void plot ();
 		virtual objectInfo getObjectInfo() { return _player_;} 
-            
+
 
 		virtual void collision (object *with, char fromWhere)
-        {
-		collisionObject = with->getObjectInfo();	
-            if ((collisionObject != _bullet_ )&&(collisionObject != _addon_))
-            {
+		{
+			collisionObject = with->getObjectInfo();	
+			if ((collisionObject != _bullet_ )&&(collisionObject != _addon_))
+			{
 
-		    if (fromWhere == fromLeft)
-			xpos = (b.xmax - b.xmin) / 2.0 + with-> b.xmax;
-		    if (fromWhere == fromRight)
-			xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
-		    if (fromWhere == fromUp){
-			    if (hitpoints != 0)
-			    	hitpoints--;
-		    }
-		    else
-			fallingObject::collision(with,fromWhere);
+				if (fromWhere == fromLeft)
+					xpos = (b.xmax - b.xmin) / 2.0 + with-> b.xmax;
+				if (fromWhere == fromRight)
+					xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
+				if (fromWhere == fromUp){
+					if (with->yvel < -2.0)
+					if (hitpoints != 0)
+						hitpoints--;
+				}
+				else
+					fallingObject::collision(with,fromWhere);
 
-            }
-	    if (with->getObjectInfo() == _addon_)
-	    {
-		    switch (((addon*)with)->addonType){
-		    case 1:
-			jumpPower = 6.0;
-			break;
-		    }
-	    }
-        }
+			}
+			if (with->getObjectInfo() == _addon_)
+			{
+				switch (((addon*)with)->addonType){
+					case 0:
+						weapons.push_back(new laser ());
+						activeWeapon = weapons.size() -1 ;
+						break;
+					case 1:
+						weapons.push_back(new tripelLaser ());
+						activeWeapon = weapons.size() -1 ;
+						break;
+					case 2:
+						jumpPower = 6.0;
+						break;
+					case 3:
+						jumpPower = 6.5;
+						xvel = 2.2;
+						break;
+					case 4:
+						jumpPower = 7.0;
+						xvel = 2.7;
+						break;
+					case 5:
+						weapons.push_back ( new schneeSchieber ());
+						activeWeapon = weapons.size() -1 ;
+						break;
+				}
+			}
+		}
 
 
 
-        virtual bool timerCallback(double dt);
+		virtual bool timerCallback(double dt);
 
 
 };

@@ -76,7 +76,11 @@ bool coloredExplosion::timerCallback (double dt)
 
 
 
+
+
+
 block::~block() {
+	object::activGame->score++;
 	object::activGame->score++;
 	object::activGame->spawnObject (new coloredExplosion ( xpos, ypos, size + 0.001, color));
 }

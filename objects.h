@@ -126,6 +126,19 @@ class block: public fallingObject
 };
 
 
+class explodingBlock : public block
+{
+	public:
+		virtual ~explodingBlock(); 
+		
+
+
+
+
+
+};
+
+
 class coloredExplosion : public object
 {
 

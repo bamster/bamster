@@ -10,8 +10,15 @@ game * activGame;
 			rowHole=rand()%16;
 			cout << "rowHole";
 			for (int i=1;i<21;i++){
+				block *b;
 				if (i <=rowHole || i >= rowHole+4 )
-				otherObjects.push_back( new block (i*5, 80, 5,rand()%4));
+				{	
+					b = new block (i*5, 80, 5,rand()%3);
+					b-> gravity = b-> gravity / 2.5;
+					otherObjects.push_back(b);
+				}	
+
+											
 			}
 
 		}
@@ -49,14 +56,16 @@ game * activGame;
 				
 				else if (rand() % 1000 >(int) 995-(score/10))
 					otherObjects.push_back( new block ((rand() % 18+1)*5, 80, 5,rand()%4));
+//					otherObjects.push_back( new block ((rand() % 18+1)*2.5, 80, 5.0,rand()%3));
 			}
 			else
 				noBlockGeneration--;
 
 
 
-			if (score == 20) {
-				otherObjects.push_back(new addon (rand() % 100, 80, 1, 1));
+			if (score % 100 == 0) {
+				otherObjects.push_back(new addon (rand() % 100, 80, 1, score / 100));
+				score++;
 				score++;
 
 			}
