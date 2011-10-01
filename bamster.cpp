@@ -1,6 +1,75 @@
 #include "bamster.h"
 #include "game.h"
 
+		void bamster::collision (object *with, char fromWhere)
+		{
+			collisionObject = with->getObjectInfo();	
+			if ((collisionObject != _bullet_ )&&(collisionObject != _addon_))
+			{
+
+				if (fromWhere == fromLeft)
+					xpos = (b.xmax - b.xmin) / 2.0 + with-> b.xmax;
+				if (fromWhere == fromRight)
+					xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
+				if (fromWhere == fromUp){
+					if (with->yvel < -2.0)
+						if (size > 1.5)
+							size--;
+						else if (hitpoints != 0)
+						hitpoints--;
+				}
+				else
+					fallingObject::collision(with,fromWhere);
+
+			}
+			if (with->getObjectInfo() == _addon_)
+			{
+				switch (((addon*)with)->addonType){
+					case 0:
+						weapons.push_back(new laser ());
+						activeWeapon = weapons.size() -1 ;
+						break;
+					case 1:
+						weapons.push_back(new tripelLaser ());
+						activeWeapon = weapons.size() -1 ;
+						break;
+					case 2:
+						jumpPower = 6.0;
+						break;
+					case 3:
+						jumpPower = 6.5;
+						xvel = 2.2;
+						break;
+					case 4:
+						jumpPower = 7.0;
+						xvel = 2.7;
+						break;
+					case 5:
+						jumpPower = 7.0;
+						xvel = 3.0;
+						break;
+					case 6:
+						jumpPower = 6.0;
+						xvel = 3.2;
+						break;
+					case 7:
+						jumpPower = 9.0;
+						xvel = 3.5;
+						break;
+
+
+
+					case 10:
+						weapons.push_back ( new schneeSchieber ());
+						activeWeapon = weapons.size() -1 ;
+						break;
+					case 99:
+						size += 0.1;
+						break;
+				}
+			}
+		}
+
 double schneeSchieber::fireLeft(double xpos, double ypos,double hamsterspeed)
 {
 	if (object::activGame->gameTime - timeLastFiring > kadenz / hamsterspeed)
