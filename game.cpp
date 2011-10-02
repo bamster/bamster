@@ -199,12 +199,12 @@ game * activGame;
 			glRasterPos2i(30, 110);
 			glColor3f(0.0f, 0.0f, 1.0f);
 			const char* textToRender = "your points:";
-			glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)textToRender );
+//			glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)textToRender );
 			char buffer[12];
 			sprintf(buffer, "%d", score);
 			glColor3f(0.0f, 0.0f, 1.0f);
 			glRasterPos2i(30, 105);
-			glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)buffer );
+//			glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)buffer );
 
 
 		}

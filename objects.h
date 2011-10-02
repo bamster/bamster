@@ -120,6 +120,7 @@ class block: public fallingObject
 		virtual void plot();
 		void updateBoundingBox ();
 		block (double x, double y, double length, int color);
+		virtual objectInfo getObjectInfo() { return _block_;}
 		virtual ~block();
 		virtual void collision (object *with, char fromWhere);
 		virtual bool timerCallback(double dt);

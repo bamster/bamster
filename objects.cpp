@@ -10,6 +10,9 @@ game * object::activGame;
 
 
 				void addon::collision (object *with, char fromWhere) {
+
+						if (fromWhere == fromUp && with->getObjectInfo() == _block_)
+							hitpoints--;
 						if (fromWhere == fromDown)
 						{
 								yvel = 0;
@@ -23,7 +26,7 @@ game * object::activGame;
 						ypos += yvel* dt;
 						yvel -= gravity*dt;
 						updateBoundingBox();
-					return !gotCollected;
+					return !gotCollected && fallingObject::timerCallback(dt);
 				}
 
 				void addon::updateBoundingBox ()
@@ -96,7 +99,7 @@ char otherSide (char side)
 }
 addon::addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l),gotCollected (false), addonType (t) {  
 			updateBoundingBox();
-			hitpoints=3;
+			hitpoints=1;
 
 			Image* image = loadBMP("animations/jumpingShoes.bmp");
 			animation = loadTexture(image);
@@ -143,13 +146,18 @@ GLuint object::loadTexture(Image *image) {
 char object::collidesWith (object &o)  
 {
 	double distLeft = b.xmin - o.b.xmax;
+	if (distLeft >= 0)
+		return 0;
 	double distRight = o.b.xmin - b.xmax;
+	if (distRight >= 0)
+		return 0;
 	double distUp = o.b.ymin - b.ymax;
+	if (distUp >= 0)
+		return 0;
 	double distDown = b.ymin - o.b.ymax;
+	if (distDown >= 0)
+		return 0;
 
-	bool collision = (distLeft < 0) && (distRight < 0) && ( distUp  < 0) && ( distDown < 0);
-	if (collision)
-	{
 		if ((distLeft > distRight) && (distLeft > distUp) && (distLeft > distDown))
 			return fromLeft;
 
@@ -161,8 +169,6 @@ char object::collidesWith (object &o)
 
 		else
 			return fromDown;
-	}
-	return 0;
 }
 
 void object::plot() { cout << "plot of object called" << endl; }
