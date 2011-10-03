@@ -225,6 +225,13 @@ game::game () : score (0), gameTime (0)
 			otherObjects.push_back(new vwall (0,50,100));
 			otherObjects.push_back(new vwall (100,50,100));
 			noBlockGeneration = 0;
+			block *b;
+			for (int i=1;i<21;i++){
+					b = new block (i*5, 5, 5,rand()%3);
+					b-> gravity = b-> gravity / 2.5;
+					otherObjects.push_back(b);
+				}	
+
 			score = 0;
 		firstResize=1;
 		}

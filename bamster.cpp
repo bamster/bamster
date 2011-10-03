@@ -12,12 +12,15 @@
 				if (fromWhere == fromRight)
 					xpos =with-> b.xmin  -  (b.xmax - b.xmin) / 2.0;
 				if (fromWhere == fromUp){
-					if (with->yvel < -2.0)
+					if (with->yvel < -0.5)
+						
 						if (size > 1.5)
 							size--;
 						else if (hitpoints != 0)
 						hitpoints--;
 				}
+				if (fromWhere == fromDown && collisionObject == _undefined_)
+					hitpoints--;
 				else
 					fallingObject::collision(with,fromWhere);
 
