@@ -60,7 +60,6 @@ class object {
 		double xpos, ypos;
 		double xvel, yvel;
 		
-		virtual ~object() {}
 		boundingBox b;
 		virtual void stopMeFalling(double height);
 		int hitpoints;

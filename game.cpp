@@ -107,7 +107,6 @@ game * activGame;
 		void game::spawnHoleRow(){
 			int rowHole;
 			rowHole=rand()%16;
-			cout << "rowHole";
 			for (int i=1;i<21;i++){
 				block *b;
 				if (i <=rowHole || i >= rowHole+4 )
