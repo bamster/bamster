@@ -48,9 +48,5 @@ class game
 		//! simulate the game for one frame.
 		void timerCallback();
 
-
-
 };
-
-
 

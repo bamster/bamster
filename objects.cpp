@@ -10,6 +10,9 @@ game * object::activGame;
 
 
 				void addon::collision (object *with, char fromWhere) {
+
+						if (fromWhere == fromUp && with->getObjectInfo() == _block_)
+							hitpoints--;
 						if (fromWhere == fromDown)
 						{
 								yvel = 0;
@@ -23,7 +26,7 @@ game * object::activGame;
 						ypos += yvel* dt;
 						yvel -= gravity*dt;
 						updateBoundingBox();
-					return !gotCollected;
+					return !gotCollected && fallingObject::timerCallback(dt);
 				}
 
 				void addon::updateBoundingBox ()
@@ -61,9 +64,28 @@ game * object::activGame;
 
 
 
+
+coloredExplosion::coloredExplosion(double x, double y, double s, int c) : object (x,y), size(s), color (c) {
+	updateBoundingBox();
+	hitpoints = 2;
+}
+
+bool coloredExplosion::timerCallback (double dt)
+{
+	hitpoints--;
+	return object::timerCallback (dt);
+}
+
+
+
+
+
+
+
 block::~block() {
 	object::activGame->score++;
-}; 
+	object::activGame->spawnObject (new coloredExplosion ( xpos, ypos, size + 0.001, color));
+}
 char otherSide (char side)
 {
 	if (side == fromLeft)
@@ -75,15 +97,15 @@ char otherSide (char side)
 	
 	return fromUp;
 }
-addon::addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l), addonType (t),gotCollected (false)  {  
+addon::addon (double x, double y, double l, int t) : fallingObject (x,y), size ( l),gotCollected (false), addonType (t) {  
 			updateBoundingBox();
-			hitpoints=3;
+			hitpoints=1;
 
 			Image* image = loadBMP("animations/jumpingShoes.bmp");
 			animation = loadTexture(image);
 			delete image;
 
-		};
+		}
 
 //object-class implementation
 void object::stopMeFalling(double height)
@@ -91,7 +113,9 @@ void object::stopMeFalling(double height)
 	//yy	 ypos = ypos - b.ymin  + height;
 	ypos = (b.ymax - b.ymin)/2.0  + height;
 }
-object::object (double x, double y) : xpos (x), ypos(y) {}
+object::object (double x, double y) : xpos (x), ypos(y), xvel(0), yvel(0) {
+	hitpoints = 1;
+}
 
 objectInfo object::getObjectInfo() { 
 	return _undefined_;  
@@ -119,16 +143,21 @@ GLuint object::loadTexture(Image *image) {
 }
 
 
-char object::collidesWith (object &o)  // return 0 for no, 1 for horizontal, 2 for vertical collision
+char object::collidesWith (object &o)  
 {
 	double distLeft = b.xmin - o.b.xmax;
+	if (distLeft >= 0)
+		return 0;
 	double distRight = o.b.xmin - b.xmax;
+	if (distRight >= 0)
+		return 0;
 	double distUp = o.b.ymin - b.ymax;
+	if (distUp >= 0)
+		return 0;
 	double distDown = b.ymin - o.b.ymax;
+	if (distDown >= 0)
+		return 0;
 
-	bool collision = (distLeft < 0) && (distRight < 0) && ( distUp  < 0) && ( distDown < 0);
-	if (collision)
-	{
 		if ((distLeft > distRight) && (distLeft > distUp) && (distLeft > distDown))
 			return fromLeft;
 
@@ -140,13 +169,17 @@ char object::collidesWith (object &o)  // return 0 for no, 1 for horizontal, 2 f
 
 		else
 			return fromDown;
-	}
-	return 0;
 }
 
 object::~object() {};
 void object::plot() { cout << "plot of object called" << endl; }
-bool object::timerCallback (double dt) {return true;}
+bool object::timerCallback (double dt) {
+	if (hitpoints <= 0)
+		return 0;
+	else 
+		return 1;
+	return true;
+}
 void object::collision (object *with, char fromWhere) { }
 
 //fallingObject implementations
@@ -154,7 +187,6 @@ fallingObject::fallingObject (double x, double y) : object (x,y), gravity(0.1) {
 
 void fallingObject::stopMeFalling (double height)
 {
-	cout << "autsch" << endl;
 	yvel = 0;
 	object::stopMeFalling (height);
 }
@@ -176,11 +208,7 @@ bool fallingObject::timerCallback(double dt)
 	ypos += yvel* dt;
 	yvel -= gravity*dt;
 	updateBoundingBox();
-	if (hitpoints == 0)
-		return 0;
-	else 
-		return 1;
-	return true;
+	return object::timerCallback (dt);
 }
 
 //vwall-implementation
@@ -198,7 +226,7 @@ void vwall::updateBoundingBox ()
 	b.ymin = ypos - length / 2;
 	b.ymax = ypos + length / 2;
 }			
-vwall::vwall (double x, double y, double l) : object (x,y), length ( l) { updateBoundingBox(); };
+vwall::vwall (double x, double y, double l) : object (x,y), length ( l) { updateBoundingBox(); }
 
 //hwall-implementation
 //
@@ -215,19 +243,29 @@ void hwall::updateBoundingBox ()
 	b.xmin = xpos - length / 2;
 	b.xmax = xpos + length / 2;
 }			
-hwall::hwall (double x, double y, double l) : object (x,y), length ( l) { updateBoundingBox(); };
+hwall::hwall (double x, double y, double l) : object (x,y), length ( l) { updateBoundingBox(); }
 
 //Implementation of block-methods
-block::block (double x, double y, double l, unsigned int color_idx) : fallingObject (x,y), size ( l)  {  
+block::block (double x, double y, double l, int color_idx) : fallingObject (x,y), size ( l)  {  
 	updateBoundingBox(); 
 	red = colors[color_idx][0];
 	green = colors[color_idx][1];	
-	blue = colors[color_idx][2];	
+	blue = colors[color_idx][2];
+	color = color_idx;	
 	hitpoints=3; 
-};
+}
 
 
 
+void coloredExplosion::plot() {
+	glColor3f(0,1.0,0.5);
+	glBegin(GL_QUADS);
+	glVertex2f(xpos - size / 2, ypos- size / 2);
+	glVertex2f(xpos + size / 2, ypos- size / 2);
+	glVertex2f(xpos + size / 2, ypos+ size / 2);
+	glVertex2f(xpos - size / 2, ypos+ size / 2);
+	glEnd();	
+}
 
 void block::plot() {
 	glColor3f(red,green,blue);
@@ -246,15 +284,33 @@ void block::updateBoundingBox () {
 	b.ymax = ypos + size / 2;
 }			
 
+
+void coloredExplosion::updateBoundingBox () {
+	b.xmin = xpos - size / 2;
+	b.xmax = xpos + size / 2;
+	b.ymin = ypos - size / 2;
+	b.ymax = ypos + size / 2;
+}			
+
 void block::collision (object *with, char fromWhere) {
-	if (with->getObjectInfo() == _bullet_) {
-//		_		if (fromWhere== fromLeft || fromWhere == fromRight)
-//				{
+	if (with->getObjectInfo() == _bullet_ ){
+			
 		hitpoints = hitpoints -1;
-//				}
 	}
-	fallingObject::collision(with,fromWhere);
+	if  (with->getObjectInfo () == _explosion_)
+	{
+		if ( ((coloredExplosion *)with) -> color == color)
+		{
+			hitpoints = hitpoints - 10;
+		}
+	}
+	else
+	{
+		fallingObject::collision(with,fromWhere);
+	}
 }
+
+
 
 
 bool block::timerCallback(double dt)

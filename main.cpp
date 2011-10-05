@@ -14,7 +14,7 @@
 #include "keyLogger.h"
 #include "game.h"
 
-const unsigned int elapsedUSecs = 3;
+const unsigned int elapsedUSecs = 1;
 
 
 
