@@ -14,9 +14,12 @@
 #include "keyLogger.h"
 #include "game.h"
 
+
+#include <SDL/SDL.h>
 const unsigned int elapsedUSecs = 1;
 
 
+SDL_Surface *screen;
 
 
 
@@ -51,9 +54,17 @@ void plot ( void ) {
 
 
 void myInit ( void ) {
-    cout << glGetString(GL_VERSION) <<"\n";
-    cout << glGetString(GL_VENDOR) <<"\n";
+    if ( SDL_Init(SDL_INIT_AUDIO|SDL_INIT_VIDEO) < 0 ) {
+        fprintf(stderr, "Something went awry. SDL Error: %s\n", SDL_GetError());
+        exit(1);
+    }
     glClearColor ( 0.0, 0.0, 0.0, 0.0 ); //white background
+
+        screen = SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE);
+        if ( screen == NULL ) {
+            fprintf(stderr, "Something went awry: %s\n", SDL_GetError());
+        exit(1);
+    }
     glColor3f(0.0f, 1.0f,0.0f);
     // green drawing colour
     glPointSize(10.0);

@@ -12,7 +12,7 @@ OBJS =  $(SRCS:.cpp=.o)
 ifeq ($(shell uname),Darwin)
 	LIBS = -framework OpenGL -framework GLUT
 else
-	LIBS = -lglut -lGLU
+	LIBS = -lglut -lGLU -lSDL
 endif
 
 $(PROG):	dependencies $(OBJS) 
