@@ -275,7 +275,7 @@ void bamster::plot()
     /* lädt die BMP-Datei in ein Surface */
     bild = SDL_LoadBMP("animations/bamster_wait_r0.bmp");
     if ( bild == NULL ) {
-        DL_Surface *bild;
+                //fprintf(stderr, "'%s' konnte nicht geladen werden: %s\n", datei, SDL_GetError());
         return;
     }
 
