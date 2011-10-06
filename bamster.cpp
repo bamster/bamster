@@ -288,11 +288,12 @@ void bamster::plot()
         currentAnimation = bamsterRunSDL[waitingAnimationState%7];
     else
         currentAnimation = bamsterWaitSDL[waitingAnimationState%4];
+	waitingAnimationState++;
       
     /* auf den Bildschirm kopieren
        die Surfaces sollten hier nicht gelockt sein. */
     ziel.x = xpos;
-    ziel.y = ypos;
+    ziel.y = -ypos;
     ziel.w = currentAnimation->w;
     ziel.h = currentAnimation->h;
     SDL_BlitSurface(currentAnimation, NULL, screen, &ziel);
@@ -308,7 +309,6 @@ void bamster::plot()
 		glBindTexture(GL_TEXTURE_2D, bamsterRun[waitingAnimationState%7]);
 	else
 		glBindTexture(GL_TEXTURE_2D, bamsterWait[waitingAnimationState%4]);
-	waitingAnimationState++;
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glDisable(GL_NORMALIZE);
