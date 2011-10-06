@@ -270,6 +270,27 @@ bamster::bamster (double x, double y) : fallingObject(x,y),    facingLeft (true)
 
 void bamster::plot()
 {
+    SDL_Rect ziel;
+    SDL_Surface *bild;
+    /* lädt die BMP-Datei in ein Surface */
+    bild = SDL_LoadBMP("animations/bamster_wait_r0.bmp");
+    if ( bild == NULL ) {
+        DL_Surface *bild;
+        return;
+    }
+
+    /* auf den Bildschirm kopieren
+       die Surfaces sollten hier nicht gelockt sein. */
+    ziel.x = xpos;
+    ziel.y = ypos;
+    ziel.w = bild->w;
+    ziel.h = bild->h;
+    SDL_BlitSurface(bild, NULL, screen, &ziel);
+
+    /* den veränderten Bildschirm-Bereich auffrischen */
+    SDL_UpdateRects(screen, 1, &ziel);
+
+    SDL_FreeSurface(bild);
 
 	// render with qudas
 	glEnable(GL_TEXTURE_2D);

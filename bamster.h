@@ -7,10 +7,12 @@
 #include <vector>
 #include <GL/glut.h>
 #include "objects.h"
+#include "SDL/SDL.h"
+
 
 using namespace std;
 
-
+extern SDL_Surface *screen;
 class weapon
 {
 	protected:
