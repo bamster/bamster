@@ -83,6 +83,9 @@ class bamster : public fallingObject {
 		GLuint bamsterRun[7];
 		GLuint bamsterWait[4];
 		GLuint bamsterJump[8];
+        SDL_Surface * bamsterRunSDL[7];
+        SDL_Surface * bamsterWaitSDL[4];
+        SDL_Surface * currentAnimation;
 		unsigned int addonType;
 	public:
 		bool facingLeft;

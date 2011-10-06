@@ -264,6 +264,18 @@ bamster::bamster (double x, double y) : fallingObject(x,y),    facingLeft (true)
 	hitpoints=1;
 	gravity=1.0;
 	waitingAnimationState=0;
+	bamsterWaitSDL[0] = SDL_LoadBMP("animations/bamster_wait_r0.bmp");
+	bamsterWaitSDL[1] = SDL_LoadBMP("animations/bamster_wait_r1.bmp");
+	bamsterWaitSDL[2] = SDL_LoadBMP("animations/bamster_wait_r2.bmp");
+	bamsterWaitSDL[3] = SDL_LoadBMP("animations/bamster_wait_r3.bmp");
+
+    bamsterRunSDL[0] = SDL_LoadBMP("animations/bamster_run_r0.bmp");
+    bamsterRunSDL[1] = SDL_LoadBMP("animations/bamster_run_r1.bmp");
+    bamsterRunSDL[2] = SDL_LoadBMP("animations/bamster_run_r2.bmp");
+    bamsterRunSDL[3] = SDL_LoadBMP("animations/bamster_run_r3.bmp");
+    bamsterRunSDL[4] = SDL_LoadBMP("animations/bamster_run_r4.bmp");
+    bamsterRunSDL[5] = SDL_LoadBMP("animations/bamster_run_r5.bmp");
+    bamsterRunSDL[6] = SDL_LoadBMP("animations/bamster_run_r6.bmp");
 
 }
 
@@ -271,26 +283,24 @@ bamster::bamster (double x, double y) : fallingObject(x,y),    facingLeft (true)
 void bamster::plot()
 {
     SDL_Rect ziel;
-    SDL_Surface *bild;
-    /* lädt die BMP-Datei in ein Surface */
-    bild = SDL_LoadBMP("animations/bamster_wait_r0.bmp");
-    if ( bild == NULL ) {
-                //fprintf(stderr, "'%s' konnte nicht geladen werden: %s\n", datei, SDL_GetError());
-        return;
-    }
 
+    if (isRunning == true )
+        currentAnimation = bamsterRunSDL[waitingAnimationState%7];
+    else
+        currentAnimation = bamsterWaitSDL[waitingAnimationState%4];
+      
     /* auf den Bildschirm kopieren
        die Surfaces sollten hier nicht gelockt sein. */
     ziel.x = xpos;
     ziel.y = ypos;
-    ziel.w = bild->w;
-    ziel.h = bild->h;
-    SDL_BlitSurface(bild, NULL, screen, &ziel);
+    ziel.w = currentAnimation->w;
+    ziel.h = currentAnimation->h;
+    SDL_BlitSurface(currentAnimation, NULL, screen, &ziel);
 
     /* den veränderten Bildschirm-Bereich auffrischen */
     SDL_UpdateRects(screen, 1, &ziel);
 
-    SDL_FreeSurface(bild);
+    //SDL_FreeSurface(currentAnimation);
 
 	// render with qudas
 	glEnable(GL_TEXTURE_2D);
