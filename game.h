@@ -47,6 +47,11 @@ class game
 
 		//! simulate the game for one frame.
 		void timerCallback();
+		
+
+		// a collection of images for 
+		SDL_Surface *
+
 
 };
 

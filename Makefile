@@ -1,9 +1,9 @@
-CC = gcc
+CC = clang
 
 CFLAGS = -O3 -Wall -g -pedantic -ansi
 PROG = bamster
 
-SRCS = imageloader.cpp bamster.cpp keyLogger.cpp  game.cpp main.cpp objects.cpp
+SRCS = imageloader.cpp bamster.cpp keyLogger.cpp  game.cpp main.cpp objects.cpp sdl.cpp
 OBJS =  $(SRCS:.cpp=.o)
 
 

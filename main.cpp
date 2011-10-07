@@ -16,10 +16,11 @@
 
 
 #include <SDL/SDL.h>
-const unsigned int elapsedUSecs = 1;
+const unsigned int elapsedUSecs = 2;
 
 
-SDL_Surface *screen;
+SDL_Surface *screen; // the main screen
+SDL_Surface* Surf_Temp; // tmp pointer used for image loading and stuff
 
 
 

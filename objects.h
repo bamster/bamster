@@ -11,11 +11,13 @@
 #endif
 
 #include <iostream>
+#include "SDL/SDL.h"
 
 #include "imageloader.h"
 
 using namespace std;
 
+extern SDL_Surface *screen;
 struct boundingBox
 {
 	double xmin;
@@ -179,6 +181,7 @@ class addon : public fallingObject
 		double size;
 		bool gotCollected;
 		GLuint animation;
+		SDL_Surface *animationSDL;
 	public:
 		unsigned int addonType;
 
@@ -188,6 +191,7 @@ class addon : public fallingObject
 		virtual objectInfo getObjectInfo() { return _addon_;  }
 		virtual void collision (object *with, char fromWhere) ;
 		bool timerCallback (double dt);
+		virtual ~addon();
 };
 
 class erdnuss : public addon

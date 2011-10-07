@@ -9,10 +9,9 @@
 #include "objects.h"
 #include "SDL/SDL.h"
 
-
 using namespace std;
-
 extern SDL_Surface *screen;
+extern SDL_Surface *Surf_Return;
 class weapon
 {
 	protected:

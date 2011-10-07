@@ -1,5 +1,6 @@
 #include "bamster.h"
 #include "game.h"
+#include "sdl.h"
 
 		void bamster::collision (object *with, char fromWhere)
 		{
@@ -264,18 +265,18 @@ bamster::bamster (double x, double y) : fallingObject(x,y),    facingLeft (true)
 	hitpoints=1;
 	gravity=1.0;
 	waitingAnimationState=0;
-	bamsterWaitSDL[0] = SDL_LoadBMP("animations/bamster_wait_r0.bmp");
-	bamsterWaitSDL[1] = SDL_LoadBMP("animations/bamster_wait_r1.bmp");
-	bamsterWaitSDL[2] = SDL_LoadBMP("animations/bamster_wait_r2.bmp");
-	bamsterWaitSDL[3] = SDL_LoadBMP("animations/bamster_wait_r3.bmp");
+    bamsterWaitSDL[0] = proper_SDL_LoadBMP("animations/bamster_wait_r0.bmp");
+	bamsterWaitSDL[1] = proper_SDL_LoadBMP("animations/bamster_wait_r1.bmp");
+	bamsterWaitSDL[2] = proper_SDL_LoadBMP("animations/bamster_wait_r2.bmp");
+	bamsterWaitSDL[3] = proper_SDL_LoadBMP("animations/bamster_wait_r3.bmp");
 
-    bamsterRunSDL[0] = SDL_LoadBMP("animations/bamster_run_r0.bmp");
-    bamsterRunSDL[1] = SDL_LoadBMP("animations/bamster_run_r1.bmp");
-    bamsterRunSDL[2] = SDL_LoadBMP("animations/bamster_run_r2.bmp");
-    bamsterRunSDL[3] = SDL_LoadBMP("animations/bamster_run_r3.bmp");
-    bamsterRunSDL[4] = SDL_LoadBMP("animations/bamster_run_r4.bmp");
-    bamsterRunSDL[5] = SDL_LoadBMP("animations/bamster_run_r5.bmp");
-    bamsterRunSDL[6] = SDL_LoadBMP("animations/bamster_run_r6.bmp");
+    bamsterRunSDL[0] = proper_SDL_LoadBMP("animations/bamster_run_r0.bmp");
+    bamsterRunSDL[1] = proper_SDL_LoadBMP("animations/bamster_run_r1.bmp");
+    bamsterRunSDL[2] = proper_SDL_LoadBMP("animations/bamster_run_r2.bmp");
+    bamsterRunSDL[3] = proper_SDL_LoadBMP("animations/bamster_run_r3.bmp");
+    bamsterRunSDL[4] = proper_SDL_LoadBMP("animations/bamster_run_r4.bmp");
+    bamsterRunSDL[5] = proper_SDL_LoadBMP("animations/bamster_run_r5.bmp");
+    bamsterRunSDL[6] = proper_SDL_LoadBMP("animations/bamster_run_r6.bmp");
 
 }
 
@@ -301,7 +302,6 @@ void bamster::plot()
     /* den veränderten Bildschirm-Bereich auffrischen */
     SDL_UpdateRects(screen, 1, &ziel);
 
-    //SDL_FreeSurface(currentAnimation);
 
 	// render with qudas
 	glEnable(GL_TEXTURE_2D);

@@ -40,6 +40,13 @@ game * object::activGame;
 
 
 				void addon::plot() {
+					SDL_Rect target;
+					target.x = xpos;
+					target.y = ypos;
+					target.w = animationSDL->w;
+					target.h = animationSDL->h;
+					SDL_BlitSurface(animationSDL, NULL, screen, &target);
+					SDL_UpdateRects(screen, 1, &target);
             glEnable(GL_TEXTURE_2D);
             glBindTexture(GL_TEXTURE_2D, animation);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -61,6 +68,16 @@ game * object::activGame;
             glEnable(GL_NORMALIZE);
             glDisable(GL_TEXTURE_2D);
 				}
+addon::~addon() {
+
+SDL_Rect target;
+target.x = xpos;
+target.y = ypos;
+target.w = animationSDL->w;
+target.h = animationSDL->h;
+SDL_UpdateRects(screen, 1, &target);
+
+}
 
 
 
@@ -104,6 +121,8 @@ addon::addon (double x, double y, double l, int t) : fallingObject (x,y), size (
 			Image* image = loadBMP("animations/jumpingShoes.bmp");
 			animation = loadTexture(image);
 			delete image;
+
+			animationSDL = SDL_LoadBMP("animations/jumpingShoes.bmp");
 
 		}
 
