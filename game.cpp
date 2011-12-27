@@ -111,7 +111,7 @@ game * activGame;
 				block *b;
 				if (i <=rowHole || i >= rowHole+4 )
 				{	
-					b = new block (i*5, 80, 5,rand()%3);
+					b = new block (i*5-2.5, 80, 5,rand()%3);
 					b-> gravity = b-> gravity / 2.5;
 					otherObjects.push_back(b);
 				}	
@@ -153,7 +153,7 @@ game * activGame;
 				}
 				
 				else if (rand() % 1000 >(int) 995-(score/10))
-					otherObjects.push_back( new block ((rand() % 18+1)*5, 80, 5,rand()%4));
+					otherObjects.push_back( new block (((rand() % 18+1)*5)-2.5, 80, 5,rand()%4));
 //					otherObjects.push_back( new block ((rand() % 18+1)*2.5, 80, 5.0,rand()%3));
 			}
 			else
@@ -198,12 +198,12 @@ game * activGame;
 			glRasterPos2i(30, 110);
 			glColor3f(0.0f, 0.0f, 1.0f);
 			const char* textToRender = "your points:";
-//			glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)textToRender );
+			glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)textToRender );
 			char buffer[12];
 			sprintf(buffer, "%d", score);
 			glColor3f(0.0f, 0.0f, 1.0f);
 			glRasterPos2i(30, 105);
-//			glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)buffer );
+			glutBitmapString(GLUT_BITMAP_HELVETICA_18, (unsigned const char*)buffer );
 
 
 		}
@@ -226,7 +226,7 @@ game::game () : score (0), gameTime (0)
 			noBlockGeneration = 0;
 			block *b;
 			for (int i=1;i<21;i++){
-					b = new block (i*5, 5, 5,rand()%3);
+					b = new block (i*5-2.5, 5, 5,rand()%3);
 					b-> gravity = b-> gravity / 2.5;
 					otherObjects.push_back(b);
 				}	
