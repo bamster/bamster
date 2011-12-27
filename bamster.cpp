@@ -28,46 +28,41 @@
 			}
 			if (with->getObjectInfo() == _addon_)
 			{
-				switch (((addon*)with)->addonType){
-					case 0:
-						weapons.push_back(new laser ());
-						activeWeapon = weapons.size() -1 ;
-						break;
-					case 1:
+				if (((addon*)with)-> addonType >2)
 						weapons.push_back(new tripelLaser ());
+				if (((addon*)with)-> addonType >5)
+						weapons.push_back ( new schneeSchieber ());
+
 						activeWeapon = weapons.size() -1 ;
-						break;
-					case 2:
-						jumpPower = 6.0;
-						break;
-					case 3:
-						jumpPower = 6.5;
-						xvel = 2.2;
-						break;
-					case 4:
-						jumpPower = 7.0;
-						xvel = 2.7;
-						break;
-					case 5:
-						jumpPower = 7.0;
-						xvel = 3.0;
+
+				switch (((addon*)with)->addonType){
+					case 10:
+					case 7:
+						jumpPower = 9.0;
+						xvel = 3.5;
 						break;
 					case 6:
 						jumpPower = 6.0;
 						xvel = 3.2;
 						break;
-					case 7:
-						jumpPower = 9.0;
-						xvel = 3.5;
+					case 5:
+						jumpPower = 7.0;
+						xvel = 3.0;
 						break;
-
-
-
-					case 10:
-						weapons.push_back ( new schneeSchieber ());
-						activeWeapon = weapons.size() -1 ;
+					case 4:
+						jumpPower = 7.0;
+						xvel = 2.7;
 						break;
-					case 99:
+					case 3:
+						jumpPower = 6.5;
+						xvel = 2.2;
+						break;
+					case 2:
+						jumpPower = 6.0;
+						break;
+					case 0:
+
+
 						size += 0.1;
 						break;
 				}
@@ -80,12 +75,12 @@ double schneeSchieber::fireLeft(double xpos, double ypos,double hamsterspeed)
 	{
 
 		timeLastFiring = object::activGame->gameTime;
-		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos - 2.0));
-		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos - 1.0));
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos - 3.0));
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos - 1.5));
 		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos));
 		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos));
-		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos + 1.0));
-		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos + 2.0));
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos + 1.5));
+		object::activGame->spawnObject(new bullet (-3.0,xpos, ypos + 3.0));
 		return 0.1;
 	}
 	return 0.0;
@@ -277,6 +272,8 @@ bamster::bamster (double x, double y) : fallingObject(x,y),    facingLeft (true)
     bamsterRunSDL[4] = proper_SDL_LoadBMP("animations/bamster_run_r4.bmp");
     bamsterRunSDL[5] = proper_SDL_LoadBMP("animations/bamster_run_r5.bmp");
     bamsterRunSDL[6] = proper_SDL_LoadBMP("animations/bamster_run_r6.bmp");
+						weapons.push_back(new laser ());
+						activeWeapon = weapons.size() -1 ;
 
 }
 

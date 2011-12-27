@@ -16,7 +16,7 @@
 
 
 #include <SDL/SDL.h>
-const unsigned int elapsedUSecs = 2;
+const unsigned int elapsedUSecs = 1;
 
 
 SDL_Surface *screen; // the main screen

@@ -55,7 +55,7 @@ class schneeSchieber : public weapon
 	virtual double fireLeft (double xpos, double ypos, double hamsterSpeed);
 	virtual double fireRight (double xpos, double ypos, double hamsterSpeed);
 
-	schneeSchieber () : kadenz (110) {}
+	schneeSchieber () : kadenz (80) {}
 };
 
 
