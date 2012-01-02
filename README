@@ -3,3 +3,8 @@ It's BAMster time!
 ======================================
 
 BAMster is a little game featuring the rodent super-hero BAMster.  
+
+Problems
+=======================================
+if the game runs to fast or to slow on your machine, change elapsedUSecs at the
+top of main.cpp

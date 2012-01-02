@@ -193,7 +193,7 @@ class addon : public fallingObject
 class erdnuss : public addon
 {
 	public:
-		erdnuss (double x, double y, double length) : addon (x,y,length, 99) {}
+		erdnuss (double x, double y, double length) : addon (x,y,length,0) {}
 };
 
 #endif
