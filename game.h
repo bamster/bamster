@@ -50,8 +50,7 @@ class game
 		
 
 		// a collection of images for 
-		SDL_Surface *
-
+        //SDL_Surface *
 
 };
 
