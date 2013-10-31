@@ -1,4 +1,4 @@
-CC = gcc
+CC = g++
 
 CFLAGS = -O3 -Wall -g -pedantic -ansi
 PROG = bamster
@@ -12,7 +12,7 @@ OBJS =  $(SRCS:.cpp=.o)
 ifeq ($(shell uname),Darwin)
 	LIBS = -framework OpenGL -framework GLUT
 else
-	LIBS = -lglut -lGLU
+	LIBS = -lglut -lGLU -lGL
 endif
 
 $(PROG):	dependencies $(OBJS) 
